@@ -6,6 +6,8 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.9.22'
     // OPTIONAL Kotlin Serialization plugin
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.9.22'
+    // Mixin support (not native in this ver???)
+    id 'org.spongepowered.mixin' version '0.7.+'
 }
 
 version = mod_version
@@ -109,6 +111,7 @@ dependencies {
     // Use the latest version of Minecraft Forge
     minecraft "net.minecraftforge:forge:$minecraft_version-$forge_version"
 
+
     // Kotlin
     implementation "thedarkcolour:kotlinforforge:$kff_version"
 
@@ -119,7 +122,7 @@ dependencies {
 
     // Yet Another Config Lib
     compileOnly fg.deobf("dev.isxander:yet-another-config-lib:${project.yacl_version}")
-    //implementation fg.deobf("dev.isxander:yet-another-config-lib:${project.yacl_version}")
+    runtimeOnly fg.deobf("dev.isxander:yet-another-config-lib:${project.yacl_version}")
 
 }
 

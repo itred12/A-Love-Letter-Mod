@@ -2,7 +2,11 @@ package com.itred.aloveletter
 
 import com.itred.aloveletter.block.ModBlocks
 import dev.isxander.yacl3.api.YetAnotherConfigLib
+
+
 import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.components.ChatComponent
+import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraftforge.client.ConfigScreenHandler
 import net.minecraftforge.common.MinecraftForge
@@ -17,6 +21,7 @@ import thedarkcolour.kotlinforforge.forge.MOD_BUS
 import thedarkcolour.kotlinforforge.forge.MOD_CONTEXT
 import thedarkcolour.kotlinforforge.forge.registerConfig
 import thedarkcolour.kotlinforforge.forge.runForDist
+import java.awt.TextComponent
 
 /**
  * Main mod class. Should be an `object` declaration annotated with `@Mod`.
@@ -69,14 +74,20 @@ object ALoveLetter {
 
         println(obj)
 
-        /*
+
+
         ModLoadingContext.get().registerExtensionPoint<ConfigScreenHandler.ConfigScreenFactory>(ConfigScreenHandler.ConfigScreenFactory::class.java, {
             ConfigScreenHandler.ConfigScreenFactory{
-                client, parent -> YetAnotherConfigLib.createBuilder().build().generateScreen(parent)
+                client, parent ->
+                YetAnotherConfigLib.createBuilder()
+                .build()
+                .generateScreen(parent)
             }
         } )
 
-         */
+
+
+
     }
 
 

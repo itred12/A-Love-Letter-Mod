@@ -1,5 +1,7 @@
 package com.itred.aloveletter
 
+
+import net.minecraft.network.chat.Component
 import net.minecraftforge.common.ForgeConfigSpec
 
 object ALLConfig {
@@ -45,6 +47,8 @@ object ALLConfig {
         COMMON_CONFIG_SPEC = COMMON_PAIR.right
         CLIENT_CONFIG_SPEC = CLIENT_PAIR.right
         SERVER_CONFIG_SPEC = SERVER_PAIR.right
+
+
     }
 
 
