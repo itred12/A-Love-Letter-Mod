@@ -1,12 +1,10 @@
 package com.itred.aloveletter
 
+
 import com.itred.aloveletter.block.ModBlocks
+import com.itred.aloveletter.config.ALLConfig
 import dev.isxander.yacl3.api.YetAnotherConfigLib
-
-
 import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.components.ChatComponent
-import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraftforge.client.ConfigScreenHandler
 import net.minecraftforge.common.MinecraftForge
@@ -21,7 +19,6 @@ import thedarkcolour.kotlinforforge.forge.MOD_BUS
 import thedarkcolour.kotlinforforge.forge.MOD_CONTEXT
 import thedarkcolour.kotlinforforge.forge.registerConfig
 import thedarkcolour.kotlinforforge.forge.runForDist
-import java.awt.TextComponent
 
 /**
  * Main mod class. Should be an `object` declaration annotated with `@Mod`.
@@ -34,7 +31,7 @@ import java.awt.TextComponent
 object ALoveLetter {
 
     const val MODID = "aloveletter"
-    val LOGGER = LogManager.getLogger(MODID);
+    val LOGGER = LogManager.getLogger(MODID)
 
 
 
@@ -51,10 +48,10 @@ object ALoveLetter {
         MinecraftForge.EVENT_BUS.register(this)
 
         // Config
-        registerConfig(ModConfig.Type.COMMON, ALLConfig.COMMON_CONFIG_SPEC)
+        registerConfig(ModConfig.Type.COMMON, ALLConfig.COMMON_CONFIG.configSpec)
         // Uncomment once we actually have config values in here
-        registerConfig(ModConfig.Type.CLIENT, ALLConfig.CLIENT_CONFIG_SPEC)
-        registerConfig(ModConfig.Type.SERVER, ALLConfig.SERVER_CONFIG_SPEC)
+        registerConfig(ModConfig.Type.CLIENT, ALLConfig.CLIENT_CONIFG.configSpec)
+        registerConfig(ModConfig.Type.SERVER, ALLConfig.SERVER_CONFIG.configSpec)
 
 
         LOGGER.log(Level.INFO, "Hello world!")
@@ -76,11 +73,13 @@ object ALoveLetter {
 
 
 
+
+
+
         ModLoadingContext.get().registerExtensionPoint<ConfigScreenHandler.ConfigScreenFactory>(ConfigScreenHandler.ConfigScreenFactory::class.java, {
             ConfigScreenHandler.ConfigScreenFactory{
                 client, parent ->
-                YetAnotherConfigLib.createBuilder()
-                .build()
+                ALLConfig.constructConfigScreen(YetAnotherConfigLib.createBuilder()).build()
                 .generateScreen(parent)
             }
         } )
