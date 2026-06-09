@@ -3,6 +3,8 @@ package com.itred.aloveletter
 
 import com.itred.aloveletter.block.ModBlocks
 import com.itred.aloveletter.config.ALLConfig
+import com.itred.aloveletter.event.EventManager
+import com.itred.aloveletter.registrar.ALLSounds
 import dev.isxander.yacl3.api.YetAnotherConfigLib
 import net.minecraft.client.Minecraft
 import net.minecraft.resources.ResourceLocation
@@ -46,10 +48,10 @@ object ALoveLetter {
 
         // Register this in the event bus for @RegisterEvent-annotated stuff to run
         MinecraftForge.EVENT_BUS.register(this)
+        modEventBus.register(EventManager(modEventBus))
 
         // Config
         registerConfig(ModConfig.Type.COMMON, ALLConfig.COMMON_CONFIG.configSpec)
-        // Uncomment once we actually have config values in here
         registerConfig(ModConfig.Type.CLIENT, ALLConfig.CLIENT_CONIFG.configSpec)
         registerConfig(ModConfig.Type.SERVER, ALLConfig.SERVER_CONFIG.configSpec)
 
@@ -57,7 +59,7 @@ object ALoveLetter {
         LOGGER.log(Level.INFO, "Hello world!")
 
         // Register the KDeferredRegister to the mod-specific event bus
-        ModBlocks.REGISTRY.register(MOD_BUS)
+        ModBlocks.REGISTRY.register(modEventBus)
 
         val obj = runForDist(
             clientTarget = {
@@ -71,21 +73,7 @@ object ALoveLetter {
 
         println(obj)
 
-
-
-
-
-
-        ModLoadingContext.get().registerExtensionPoint<ConfigScreenHandler.ConfigScreenFactory>(ConfigScreenHandler.ConfigScreenFactory::class.java, {
-            ConfigScreenHandler.ConfigScreenFactory{
-                client, parent ->
-                ALLConfig.constructConfigScreen(YetAnotherConfigLib.createBuilder()).build()
-                .generateScreen(parent)
-            }
-        } )
-
-
-
+        ALLSounds.register(modEventBus)
 
     }
 
@@ -97,6 +85,16 @@ object ALoveLetter {
      */
     private fun onClientSetup(event: FMLClientSetupEvent) {
         LOGGER.log(Level.INFO, "Initializing client...")
+
+
+        ModLoadingContext.get().registerExtensionPoint<ConfigScreenHandler.ConfigScreenFactory>(ConfigScreenHandler.ConfigScreenFactory::class.java, {
+            ConfigScreenHandler.ConfigScreenFactory{
+                    client, parent ->
+                ALLConfig.constructConfigScreen(YetAnotherConfigLib.createBuilder()).build()
+                    .generateScreen(parent)
+            }
+        } )
+
 
     }
 

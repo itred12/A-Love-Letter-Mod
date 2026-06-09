@@ -1,5 +1,7 @@
 package com.itred.aloveletter.config
 
+import com.electronwill.nightconfig.core.EnumGetMethod
+import com.itred.aloveletter.event.configurable.BlueAxolotlPing
 import dev.isxander.yacl3.api.ConfigCategory
 import dev.isxander.yacl3.api.LabelOption
 import dev.isxander.yacl3.api.YetAnotherConfigLib
@@ -50,9 +52,29 @@ object ALLConfig {
         override val screenName = "Client Config"
         override val screenTooltip = "Client Config"
 
-        val testConfigValue = clientBuilder
-            .comment("Test!")
-            .define("testConfigValue", true)
+        val blueAxolotlPingSFX = clientBuilder
+            .comment(
+                "Plays a fitting sound effect when you're near a blue axolotl, or when one spawns in near you.",
+                "",
+                "Blue Axolotl Ping must be enabled in the server config for this to take effect.",
+                "",
+                "Values:",
+                "",
+                "  NONE - No sound effect plays.",
+                "",
+                "  BW - Plays the Shiny Pokemon sound effect from Pokemon Black and White.",
+                "",
+                "  PLA - Plays the Shiny Pokemon sound effect from Pokemon Legends: Arceus and Pokemon Legends: ZA.",
+                ""
+            )
+            .defineEnum(
+                "blueAxolotlPing",
+                BlueAxolotlPing.PingSoundEffect.PLA,
+                EnumGetMethod.ORDINAL_OR_NAME_IGNORECASE,
+                BlueAxolotlPing.PingSoundEffect.PLA,
+                BlueAxolotlPing.PingSoundEffect.BW,
+                BlueAxolotlPing.PingSoundEffect.NONE
+            )
 
 
         fun populateCategory(): ConfigCategory {
@@ -91,7 +113,6 @@ object ALLConfig {
 
         SERVER_CONFIG = SERVER_PAIR.left
         SERVER_CONFIG.configSpec = SERVER_PAIR.right
-
 
     }
 
