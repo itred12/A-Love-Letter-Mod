@@ -1,8 +1,9 @@
-package com.itred.aloveletter.event
+package com.itred.aloveletter.event.configurable
 
 import net.minecraftforge.eventbus.api.IEventBus
 
 interface IConfigurableEventHandler {
+    var isEnabled: Boolean
     fun shouldEnable(): Boolean {
         return true
     }

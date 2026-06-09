@@ -3,7 +3,6 @@ package com.itred.aloveletter
 
 import com.itred.aloveletter.block.ModBlocks
 import com.itred.aloveletter.config.ALLConfig
-import com.itred.aloveletter.event.EventManager
 import com.itred.aloveletter.registrar.ALLSounds
 import dev.isxander.yacl3.api.YetAnotherConfigLib
 import net.minecraft.client.Minecraft
@@ -48,7 +47,6 @@ object ALoveLetter {
 
         // Register this in the event bus for @RegisterEvent-annotated stuff to run
         MinecraftForge.EVENT_BUS.register(this)
-        modEventBus.register(EventManager(modEventBus))
 
         // Config
         registerConfig(ModConfig.Type.COMMON, ALLConfig.COMMON_CONFIG.configSpec)

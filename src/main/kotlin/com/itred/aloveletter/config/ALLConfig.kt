@@ -1,10 +1,11 @@
 package com.itred.aloveletter.config
 
 import com.electronwill.nightconfig.core.EnumGetMethod
-import com.itred.aloveletter.event.configurable.BlueAxolotlPing
+import com.itred.aloveletter.event.configurable.server.BlueAxolotlPing
 import dev.isxander.yacl3.api.ConfigCategory
 import dev.isxander.yacl3.api.LabelOption
 import dev.isxander.yacl3.api.YetAnotherConfigLib
+import dev.isxander.yacl3.api.controller.EnumControllerBuilder
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder
 import net.minecraft.network.chat.Component
 import net.minecraftforge.common.ForgeConfigSpec
@@ -81,8 +82,8 @@ object ALLConfig {
 
             return encompassingCategoryBuilder()
                 .option(
-                    simpleTemplateOption(testConfigValue)
-                        .controller(TickBoxControllerBuilder::create)
+                    simpleTemplateOption(blueAxolotlPingSFX)
+                        .controller({opt -> EnumControllerBuilder.create<BlueAxolotlPing.PingSoundEffect>(opt).enumClass(BlueAxolotlPing.PingSoundEffect::class.java)})
                         .build()
                 ).build()
 
@@ -94,6 +95,19 @@ object ALLConfig {
     class ServerConfig(serverBuilder: ForgeConfigSpec.Builder) {
         // No in-world config screen in this version, so no point in making a server config screen
         lateinit var configSpec: ForgeConfigSpec
+
+
+        val blueAxolotPingMasterSwitch = serverBuilder
+            .push("blueaxolotltweaks")
+            .comment("Enable or disable playing a sound effect when a player goes near a blue axolotl.",
+                "",
+                "The sound effect itself can also be enabled or disabled on the client's end, but it will always respect this option.")
+            .worldRestart()
+            .define("blueAxolotlPingMasterswitch", true)
+
+        val blueAxolotlPingRange: ForgeConfigSpec.IntValue = serverBuilder
+            .comment("If blueAxolotlPingMasterswitch is enabled, this controls the range in which blue axolotls will play the sound effect for a given player (radius, in blocks, of a sphere centered around the axolotl).",)
+            .defineInRange("blueAxolotlPingRange", 32, 1, 256)
 
     }
 
