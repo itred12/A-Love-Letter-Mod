@@ -1,4 +1,4 @@
-package com.itred.aloveletter.datagen
+package com.itred.aloveletter.datagen.data
 
 import com.itred.aloveletter.ALoveLetter
 import net.minecraft.core.HolderLookup

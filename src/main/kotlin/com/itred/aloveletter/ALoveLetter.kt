@@ -3,7 +3,7 @@ package com.itred.aloveletter
 
 import com.itred.aloveletter.block.ModBlocks
 import com.itred.aloveletter.config.ALLConfig
-import com.itred.aloveletter.registrar.ALLSounds
+import com.itred.aloveletter.registrar.AbstractRegistrar
 import dev.isxander.yacl3.api.YetAnotherConfigLib
 import net.minecraft.client.Minecraft
 import net.minecraft.resources.ResourceLocation
@@ -71,7 +71,9 @@ object ALoveLetter {
 
         println(obj)
 
-        ALLSounds.register(modEventBus)
+        // Register the registers
+        AbstractRegistrar.registerAll(modEventBus)
+
 
     }
 
@@ -106,5 +108,36 @@ object ALoveLetter {
 
     fun modLoc(path: String): ResourceLocation {
         return ResourceLocation(MODID, path)
+    }
+
+    /** Returns a string of the path of the given resource location (everything after the ':'), with the underscore removed and the first letter of every individual word capitalized.
+     *
+     * If keepSpace is false, every underscore will be cleared and the name will be all one word. If it's true, each underscore will be replaced with a space.
+     * */
+    fun resourceLocationToHumanReadable(resourceLocation: ResourceLocation, keepSpace: Boolean = false): String {
+        val nameSnakeCase = resourceLocation.toString().substringAfter(':')
+
+        var nameHumanReadable = ""
+
+        for (i in 0..<nameSnakeCase.length) {
+
+            val character = nameSnakeCase[i]
+
+            if (i == 0 || nameHumanReadable[i - 1] == ' ') {
+                nameHumanReadable += character.uppercase()
+            } else if (character == '_') {
+                nameHumanReadable += ' '
+            } else {
+                nameHumanReadable += character
+            }
+
+        }
+
+        // Only remove the spaces after we're done iterating through the string to avoid whacky misalignment issues
+        if (!keepSpace) {
+            nameHumanReadable = nameHumanReadable.filter { char -> char != ' ' }
+        }
+
+        return nameHumanReadable
     }
 }

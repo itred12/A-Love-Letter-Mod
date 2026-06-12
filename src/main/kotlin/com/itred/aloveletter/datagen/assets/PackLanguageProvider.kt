@@ -1,6 +1,7 @@
-package com.itred.aloveletter.datagen
+package com.itred.aloveletter.datagen.assets
 
 import com.itred.aloveletter.ALoveLetter
+import com.itred.aloveletter.registrar.ALLItems
 import com.itred.aloveletter.registrar.ALLSounds
 import net.minecraft.data.PackOutput
 import net.minecraft.sounds.SoundEvent
@@ -15,8 +16,23 @@ class PackLanguageProvider(pack: PackOutput): LanguageProvider(pack, ALoveLetter
 
     override fun addTranslations() {
 
+        itemTranslations()
+        subtitleTranslations()
+
+    }
+
+    private fun itemTranslations() {
+
+        add(ALLItems.SPEED_COLA, "SCP-207")
+
+    }
+
+    // Make my life easier here, section it off a bit more
+    private fun subtitleTranslations() {
+
         addSubtitle(ALLSounds.BLUEAXOLOTL_BW, "Blue axolotl twinkles")
         addSubtitle(ALLSounds.BLUEAXOLOTL_PLA, "Blue axolotl twinkles")
+
     }
 
 
@@ -24,7 +40,7 @@ class PackLanguageProvider(pack: PackOutput): LanguageProvider(pack, ALoveLetter
     private fun addSubtitle(event: Supplier<SoundEvent>, translation: String) {
         add(
             // The same logic the soundprovider uses to make the subtitles, so they'll always be the same
-            PackSoundProvider.SUBTITLE_PREFIX + PackSoundProvider.stripSoundResourceLocationForSubtitle(event.get().location),
+            PackSoundProvider.Companion.SUBTITLE_PREFIX + PackSoundProvider.Companion.stripSoundResourceLocationForSubtitle(event.get().location),
             translation
         )
     }

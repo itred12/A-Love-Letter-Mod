@@ -1,4 +1,4 @@
-package com.itred.aloveletter.datagen
+package com.itred.aloveletter.datagen.assets
 
 import com.itred.aloveletter.ALoveLetter
 import com.itred.aloveletter.registrar.ALLSounds

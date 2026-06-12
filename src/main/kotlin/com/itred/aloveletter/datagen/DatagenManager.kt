@@ -1,6 +1,9 @@
 package com.itred.aloveletter.datagen
 
 import com.itred.aloveletter.ALoveLetter
+import com.itred.aloveletter.datagen.assets.PackItemModelProvider
+import com.itred.aloveletter.datagen.assets.PackLanguageProvider
+import com.itred.aloveletter.datagen.assets.PackSoundProvider
 import net.minecraft.data.PackOutput
 import net.minecraftforge.data.event.GatherDataEvent
 import net.minecraftforge.eventbus.api.EventPriority
@@ -20,8 +23,11 @@ object DatagenManager {
         val lookupProvider = event.lookupProvider
 
 
+        generator.addProvider(event.includeClient(), PackItemModelProvider(pack, existingFileHelper))
+
         generator.addProvider(event.includeClient(), PackSoundProvider(pack, existingFileHelper))
         generator.addProvider(event.includeClient(), PackLanguageProvider(pack))
+
     }
 
 }
