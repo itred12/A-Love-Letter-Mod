@@ -4,6 +4,7 @@ import com.itred.aloveletter.ALoveLetter
 import com.itred.aloveletter.datagen.assets.PackItemModelProvider
 import com.itred.aloveletter.datagen.assets.PackLanguageProvider
 import com.itred.aloveletter.datagen.assets.PackSoundProvider
+import com.itred.aloveletter.datagen.data.PackRegistriesGenerator
 import net.minecraft.data.PackOutput
 import net.minecraftforge.data.event.GatherDataEvent
 import net.minecraftforge.eventbus.api.EventPriority
@@ -20,13 +21,14 @@ object DatagenManager {
         val generator = event.generator
         val pack: PackOutput = generator.packOutput
         val existingFileHelper = event.existingFileHelper
-        val lookupProvider = event.lookupProvider
+        var lookupProvider = event.lookupProvider
 
+        lookupProvider = generator.addProvider(event.includeServer(), PackRegistriesGenerator(pack, lookupProvider)).registryProvider
 
         generator.addProvider(event.includeClient(), PackItemModelProvider(pack, existingFileHelper))
 
         generator.addProvider(event.includeClient(), PackSoundProvider(pack, existingFileHelper))
-        generator.addProvider(event.includeClient(), PackLanguageProvider(pack))
+        generator.addProvider(event.includeClient(), PackLanguageProvider(pack, lookupProvider))
 
     }
 

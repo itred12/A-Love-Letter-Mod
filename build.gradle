@@ -8,10 +8,22 @@ plugins {
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.9.22'
     // Mixin support (not native in this ver???)
     id 'org.spongepowered.mixin' version '0.7.+'
+    //id 'net.neoforged.moddev' version '2.0.141'
+    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+
 }
 
 version = mod_version
 group = mod_group_id
+
+
+// https://github.com/SpongePowered/Mixin/wiki/Mixins-on-Minecraft-Forge
+mixin {
+    // MixinGradle Settings
+    add sourceSets.main, 'mixins.aloveletter.refmap.json'
+    config 'mixins.aloveletter.json'
+}
+
 
 base {
     archivesName = mod_id
@@ -22,7 +34,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 println("Java: ${System.getProperty('java.version')}, JVM: ${System.getProperty('java.vm.version')} (${System.getProperty('java.vendor')}), Arch: ${System.getProperty('os.arch')}")
 minecraft {
     // Change to your preferred mappings
-    mappings channel: mapping_channel, version: mapping_version
+    mappings channel: 'parchment', version: parchment_mappings_version
     // Add your AccessTransformer
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -105,6 +117,9 @@ repositories {
         name 'Xander Maven'
         url 'https://maven.isxander.dev/releases'
     }
+
+    maven { url = 'https://maven.parchmentmc.org' }
+
 }
 
 dependencies {
@@ -112,17 +127,21 @@ dependencies {
     minecraft "net.minecraftforge:forge:$minecraft_version-$forge_version"
 
 
+    // Apply Mixin AP
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     // Kotlin
     implementation "thedarkcolour:kotlinforforge:$kff_version"
 
 
-    //TODO: switch back to this, YACL isnt cooperating
-    // Cloth config API
-    //api "me.shedaniel.cloth:cloth-config-forge:$cloth_config_version"
-
     // Yet Another Config Lib
     compileOnly fg.deobf("dev.isxander:yet-another-config-lib:${project.yacl_version}")
     runtimeOnly fg.deobf("dev.isxander:yet-another-config-lib:${project.yacl_version}")
+
+    //Mixinextras (I NEEEEED IT)
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.5.4"))
+    implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.5.4")) {
+        jarJar.ranged(it, "[0.5.4,)")
+    }
 
 }
 
