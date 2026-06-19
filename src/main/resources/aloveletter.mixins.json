@@ -2,15 +2,15 @@
   "required": true,
   "package": "com.itred.aloveletter.mixin",
   "compatibilityLevel": "JAVA_17",
+  "refmap": "mixins.aloveletter.refmap.json",
   "mixins": [
-    "LivingEntityMixin"
+    "LivingEntityMixin",
+    "PlayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "overwrites": {
     "requireAnnotations": true
-  },
-  "client": [
-  ]
+  }
 }

@@ -101,11 +101,11 @@ object BlueAxolotlPing : IConfigurableEventHandler {
                         axolotl.blockPosition(),
                         blueAxolotlPing.getSoundEffect().get().get(),
                         SoundSource.MASTER,
-                        (max(16, range) / 16).toFloat() + 1.0f,
+                        (max(16, range) / 16).toFloat() + 0.8f,
                         player.random.nextInt(90, 110).toFloat() / 100
 
                     )
-                    ALoveLetter.LOGGER.info("Blue axolotl spawned!")
+                    ALoveLetter.LOGGER.info("Blue axolotl spawned {} blocks away!", player.distanceTo(axolotl))
                     storedAxolotls.remove(axolotl)
                 }
 

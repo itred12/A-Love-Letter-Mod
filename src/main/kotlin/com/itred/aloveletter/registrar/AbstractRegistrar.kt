@@ -19,6 +19,7 @@ open class AbstractRegistrar<T>(targetRegistry: IForgeRegistry<T>)  {
             ALLItems.register(modBus)
             ALLSounds.register(modBus)
             ALLStatusEffects.register(modBus)
+            ALLPotions.register(modBus)
         }
 
     }

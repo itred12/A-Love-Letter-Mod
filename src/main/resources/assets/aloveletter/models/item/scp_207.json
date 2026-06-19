@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "aloveletter:item/scp_207_liquid_dummy",
+    "layer1": "aloveletter:item/scp_207"
+  }
+}

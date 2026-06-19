@@ -20,8 +20,11 @@ group = mod_group_id
 // https://github.com/SpongePowered/Mixin/wiki/Mixins-on-Minecraft-Forge
 mixin {
     // MixinGradle Settings
-    add sourceSets.main, 'mixins.aloveletter.refmap.json'
-    config 'mixins.aloveletter.json'
+    add sourceSets.main, 'aloveletter.mixins.refmap.json'
+    config 'aloveletter.mixins.json'
+
+    debug.verbose = true
+    debug.export = true
 }
 
 
@@ -45,6 +48,10 @@ minecraft {
         client {
             workingDirectory project.file('run')
 
+            arg "-mixin.config=aloveletter.mixins.json"
+            properties 'mixin.env.remapRefMap': 'true'
+            property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
+
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             property 'forge.enabledGameTestNamespaces', mod_id
@@ -59,6 +66,10 @@ minecraft {
         server {
             workingDirectory project.file('run/server')
 
+            arg "-mixin.config=aloveletter.mixins.json"
+            properties 'mixin.env.remapRefMap': 'true'
+            property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
+
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             property 'forge.enabledGameTestNamespaces', mod_id
@@ -72,6 +83,10 @@ minecraft {
 
         gameTestServer {
             workingDirectory project.file('run/server')
+
+            arg "-mixin.config=aloveletter.mixins.json"
+            properties 'mixin.env.remapRefMap': 'true'
+            property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
 
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
@@ -89,6 +104,10 @@ minecraft {
 
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+
+            arg "-mixin.config=aloveletter.mixins.json"
+            properties 'mixin.env.remapRefMap': 'true'
+            property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
 
             args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources')
 
@@ -154,7 +173,8 @@ def replaceProperties = [
         minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,
         forge_version: forge_version, forge_version_range: forge_version_range,
         mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
-        mod_authors: mod_authors, mod_description: mod_description
+        mod_authors: mod_authors, mod_description: mod_description,
+        loader_version_range: loader_version_range
 ]
 processResources {
     inputs.properties replaceProperties
@@ -178,7 +198,8 @@ jar {
                 'Implementation-Title'    : project.name,
                 'Implementation-Version'  : project.jar.archiveVersion,
                 'Implementation-Vendor'   : mod_authors,
-                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "MixinConfigs": "aloveletter.mixins.json"
         ])
     }
 }

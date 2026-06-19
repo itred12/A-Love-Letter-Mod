@@ -83,7 +83,7 @@ object ALoveLetter {
      * things such as renderers and keymaps
      * Fired on the mod specific event bus.
      */
-    private fun onClientSetup(event: FMLClientSetupEvent) {
+    fun onClientSetup(event: FMLClientSetupEvent) {
         LOGGER.log(Level.INFO, "Initializing client...")
 
 
@@ -101,7 +101,7 @@ object ALoveLetter {
     /**
      * Fired on the global Forge bus.
      */
-    private fun onServerSetup(event: FMLDedicatedServerSetupEvent) {
+    fun onServerSetup(event: FMLDedicatedServerSetupEvent) {
         LOGGER.log(Level.INFO, "Server starting...")
     }
 

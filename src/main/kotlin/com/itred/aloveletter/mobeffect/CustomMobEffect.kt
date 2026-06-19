@@ -1,5 +1,6 @@
 package com.itred.aloveletter.mobeffect
 
+import com.itred.aloveletter.ALoveLetter
 import com.itred.aloveletter.registrar.ALLStatusEffects
 import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.effect.MobEffectCategory
@@ -59,6 +60,12 @@ open class CustomMobEffect(category: MobEffectCategory, color: Int) : MobEffect(
             }
 
             return subtractedFallDist
+        }
+
+        /** Returns false if the player should exhaust from actions that reduce saturation (other than regenerating health), and true otherwise. */
+        fun preventExhaustionHandler(entity: LivingEntity, exhaustionAmount: Float): Boolean {
+            ALoveLetter.LOGGER.info(exhaustionAmount.toString())
+            return entity.hasEffect(ALLStatusEffects.HYPERACTIVE)
         }
 
     }

@@ -3,13 +3,17 @@ package com.itred.aloveletter.datagen.assets
 import com.itred.aloveletter.ALoveLetter
 import com.itred.aloveletter.datagen.data.registry.DamageTypeRegistryProvider
 import com.itred.aloveletter.registrar.ALLItems
+import com.itred.aloveletter.registrar.ALLPotions
 import com.itred.aloveletter.registrar.ALLSounds
+import com.itred.aloveletter.registrar.ALLStatusEffects
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.registries.Registries
 import net.minecraft.data.PackOutput
 import net.minecraft.resources.ResourceKey
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.world.damagesource.DamageType
+import net.minecraft.world.item.Items
+import net.minecraft.world.item.alchemy.Potion
 import net.minecraftforge.common.data.LanguageProvider
 import java.util.concurrent.CompletableFuture
 import java.util.function.Supplier
@@ -28,6 +32,10 @@ class PackLanguageProvider(pack: PackOutput, val lookupProvider: CompletableFutu
             normalDeath = "%s's blood turned to caffeine",
             assist = "%s experienced a heart attack whilst trying to escape %s"
             )
+
+        add(ALLStatusEffects.HYPERACTIVE, "Hyperactive")
+        addPotion(ALLPotions.POTION_HYPERACTIVE, "SCP-207")
+
 
     }
 
@@ -95,6 +103,11 @@ class PackLanguageProvider(pack: PackOutput, val lookupProvider: CompletableFutu
         }
 
 
+    }
+
+    fun addPotion(potion: Potion, translation: String) {
+        val prefix = Items.POTION.descriptionId + ".effect."
+        add(potion.getName(prefix), translation)
     }
 
 }

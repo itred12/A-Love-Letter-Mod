@@ -14,7 +14,9 @@ import kotlin.math.max
 
 object HyperactiveStatusEffect : CustomMobEffect(
     MobEffectCategory.NEUTRAL,
-    FastColor.ARGB32.color(100, 100, 0, 255)
+    FastColor.ARGB32.color(255, 73, 38, 5)
+    //4793861
+    // 73, 38, 5
     ) {
 
     // Jump boost is 0.1, this is half
@@ -44,6 +46,7 @@ object HyperactiveStatusEffect : CustomMobEffect(
     override fun isDurationEffectTick(duration: Int, amplifier: Int): Boolean {
         val interval = max(LOWEST_EFFECT_TICK_INTERVAL, effectTickInterval - (INTERVAL_SHRINK_PER_LEVEL * amplifier))
         return duration % interval == 0
+
     }
 
     init {
