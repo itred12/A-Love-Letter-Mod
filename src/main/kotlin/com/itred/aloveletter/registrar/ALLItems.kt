@@ -2,6 +2,7 @@ package com.itred.aloveletter.registrar
 
 import com.itred.aloveletter.ALoveLetter
 import com.itred.aloveletter.item.SpeedColaItem
+import com.itred.aloveletter.item.WaxPaperItem
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
 import net.minecraft.world.food.FoodProperties
@@ -27,6 +28,8 @@ object ALLItems: AbstractRegistrar<Item>(ForgeRegistries.ITEMS) {
     }
 
 
+    // ITEMS
+
     val SPEED_COLA by newComplexItem("scp_207") {
         SpeedColaItem( Item.Properties()
             .rarity(Rarity.UNCOMMON)
@@ -37,6 +40,28 @@ object ALLItems: AbstractRegistrar<Item>(ForgeRegistries.ITEMS) {
 
             )
         )
+    }
+
+    val ENCHANTED_PARCHMENT by newComplexItem("enchanted_parchment") {
+        // Object keyword before this allows us to turn this into an anonymous class we can override
+        object: Item(
+            Item.Properties()
+                .rarity(Rarity.UNCOMMON)
+        ) {
+            override fun canGrindstoneRepair(stack: ItemStack?): Boolean {
+                return true
+            }
+
+            // Enchanted glint
+            override fun isFoil(pStack: ItemStack?): Boolean {
+                return true
+            }
+        }
+    }
+
+
+    val WAX_PAPER by newComplexItem("wax_paper") {
+        WaxPaperItem(Item.Properties())
     }
 
 
