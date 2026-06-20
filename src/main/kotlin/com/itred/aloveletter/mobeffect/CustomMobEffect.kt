@@ -1,6 +1,5 @@
 package com.itred.aloveletter.mobeffect
 
-import com.itred.aloveletter.ALoveLetter
 import com.itred.aloveletter.registrar.ALLStatusEffects
 import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.effect.MobEffectCategory
@@ -8,7 +7,7 @@ import net.minecraft.world.entity.LivingEntity
 
 open class CustomMobEffect(category: MobEffectCategory, color: Int) : MobEffect(category, color) {
 
-    protected open val effectTickInterval = 1
+    open val effectTickInterval = 1
 
     override fun isDurationEffectTick(duration: Int, amplifier: Int): Boolean {
 
@@ -64,7 +63,6 @@ open class CustomMobEffect(category: MobEffectCategory, color: Int) : MobEffect(
 
         /** Returns false if the player should exhaust from actions that reduce saturation (other than regenerating health), and true otherwise. */
         fun preventExhaustionHandler(entity: LivingEntity, exhaustionAmount: Float): Boolean {
-            ALoveLetter.LOGGER.info(exhaustionAmount.toString())
             return entity.hasEffect(ALLStatusEffects.HYPERACTIVE)
         }
 

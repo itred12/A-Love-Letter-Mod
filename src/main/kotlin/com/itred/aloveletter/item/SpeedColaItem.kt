@@ -1,7 +1,10 @@
 package com.itred.aloveletter.item
 
+import com.itred.aloveletter.mobeffect.HyperactiveStatusEffect
 import com.itred.aloveletter.registrar.ALLStatusEffects
+import net.minecraft.ChatFormatting
 import net.minecraft.advancements.CriteriaTriggers
+import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
@@ -70,6 +73,7 @@ class SpeedColaItem(properties: Properties) : Item(properties) {
         }
 
         if (pLivingEntity !is Player || !pLivingEntity.abilities.instabuild) {
+            // Decrement the stack if we aren't a player or aren't in creative mode
             pStack.shrink(1)
 
             // If there's nothing left in the stack after shrinking it, we can return the remaining item as-is
@@ -89,7 +93,32 @@ class SpeedColaItem(properties: Properties) : Item(properties) {
 
     }
 
+    override fun appendHoverText(
+        pStack: ItemStack,
+        pLevel: Level?,
+        pTooltipComponents: MutableList<Component>,
+        pIsAdvanced: TooltipFlag
+    ) {
+        pTooltipComponents.add(Component.translatable("${this.descriptionId}.tooltip_1").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC))
+        pTooltipComponents.add(Component.translatable("${this.descriptionId}.tooltip_2").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC))
 
+        pTooltipComponents.add(Component.empty())
+        // "When applied:"
+        pTooltipComponents.add(Component.translatable("potion.whenDrank").withStyle(ChatFormatting.DARK_PURPLE))
+        // +X% Speed (+Y% per stack)
+        pTooltipComponents.add(Component.translatable("${this.descriptionId}.speedModifier",
+            (HyperactiveStatusEffect.STARTING_SPEED_BONUS * 100).toInt(),
+            (HyperactiveStatusEffect.SPEED_BONUS_PER_LEVEL * 100).toInt()
+        ).withStyle(ChatFormatting.BLUE));
+        // -X health/Y second(s) (-Z health/A seconds per stack)
+        pTooltipComponents.add(Component.translatable("${this.descriptionId}.damageOverTime",
+            HyperactiveStatusEffect.DAMAGE_PER_LEVEL,
+            (HyperactiveStatusEffect.effectTickInterval / 20.0).toString(),
+            HyperactiveStatusEffect.DAMAGE_PER_LEVEL,
+            (HyperactiveStatusEffect.INTERVAL_SHRINK_PER_LEVEL / 20.0).toString()
+        ).withStyle(ChatFormatting.RED));
+
+    }
 
     override fun use(
         pLevel: Level?,

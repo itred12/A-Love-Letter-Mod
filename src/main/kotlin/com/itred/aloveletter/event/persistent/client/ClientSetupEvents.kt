@@ -3,11 +3,9 @@ package com.itred.aloveletter.event.persistent.client
 import com.itred.aloveletter.ALoveLetter
 import com.itred.aloveletter.mobeffect.HyperactiveStatusEffect
 import net.minecraft.client.multiplayer.ClientLevel
-import net.minecraft.client.renderer.item.ItemProperties
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.Items
 import net.minecraft.world.item.alchemy.PotionUtils
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.eventbus.api.SubscribeEvent
@@ -21,10 +19,10 @@ object ClientSetupEvents {
     @SubscribeEvent
     fun onClientSetup(event: FMLClientSetupEvent) {
 
-        ALoveLetter.LOGGER.info("AAAA")
 
 
         event.enqueueWork() {
+            /* Removed for now
             ItemProperties.register(
                 Items.POTION,
                 // Used to have different textures for potions from the mod.
@@ -32,6 +30,7 @@ object ClientSetupEvents {
                 ALoveLetter.modLoc("allpotioneffect"),
                 ClientSetupEvents::getALLEffect
             )
+            */
         }
 
     }

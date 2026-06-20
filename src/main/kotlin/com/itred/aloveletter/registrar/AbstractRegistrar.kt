@@ -17,9 +17,11 @@ open class AbstractRegistrar<T>(targetRegistry: IForgeRegistry<T>)  {
 
         fun registerAll(modBus: IEventBus) {
             ALLItems.register(modBus)
+            // Kiiiindof lazy for now but whatevah
+            ALLItems.CREATIVE_TAB_REGISTER.register(modBus)
             ALLSounds.register(modBus)
             ALLStatusEffects.register(modBus)
-            ALLPotions.register(modBus)
+            //ALLPotions.register(modBus)
         }
 
     }

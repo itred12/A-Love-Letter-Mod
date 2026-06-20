@@ -31,7 +31,7 @@ object DatagenManager {
         generator.addProvider(event.includeClient(), PackItemModelProvider(pack, existingFileHelper))
 
         generator.addProvider(event.includeClient(), PackSoundProvider(pack, existingFileHelper))
-        generator.addProvider(event.includeClient(), PackLanguageProvider(pack, lookupProvider))
+        generator.addProvider(true, PackLanguageProvider(pack, lookupProvider))
 
 
 

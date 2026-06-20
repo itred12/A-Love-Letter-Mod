@@ -1,7 +1,7 @@
 package com.itred.aloveletter.event.persistent.common
 
 import com.itred.aloveletter.ALoveLetter
-import com.itred.aloveletter.registrar.ALLPotions
+import com.itred.aloveletter.registrar.ALLItems
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.alchemy.Potion
@@ -26,7 +26,7 @@ object UnconventionalRecipeRegistrar {
             BrewingRecipeRegistry.addRecipe(
                 Ingredient.of(getItemStackOfPotion(Potions.STRONG_SWIFTNESS)),
                 Ingredient.of(Items.FERMENTED_SPIDER_EYE),
-                getItemStackOfPotion(ALLPotions.POTION_HYPERACTIVE)
+                ItemStack(ALLItems.SPEED_COLA)
             )
 
 

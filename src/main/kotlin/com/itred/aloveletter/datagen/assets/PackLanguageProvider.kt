@@ -3,7 +3,6 @@ package com.itred.aloveletter.datagen.assets
 import com.itred.aloveletter.ALoveLetter
 import com.itred.aloveletter.datagen.data.registry.DamageTypeRegistryProvider
 import com.itred.aloveletter.registrar.ALLItems
-import com.itred.aloveletter.registrar.ALLPotions
 import com.itred.aloveletter.registrar.ALLSounds
 import com.itred.aloveletter.registrar.ALLStatusEffects
 import net.minecraft.core.HolderLookup
@@ -12,6 +11,8 @@ import net.minecraft.data.PackOutput
 import net.minecraft.resources.ResourceKey
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.world.damagesource.DamageType
+import net.minecraft.world.item.CreativeModeTab
+import net.minecraft.world.item.Item
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.alchemy.Potion
 import net.minecraftforge.common.data.LanguageProvider
@@ -22,7 +23,9 @@ class PackLanguageProvider(pack: PackOutput, val lookupProvider: CompletableFutu
 
     override fun addTranslations() {
 
-        add(ALLItems.SPEED_COLA, "SCP-207")
+        addItem(ALLItems.SPEED_COLA, "SCP-207", "Harmfully increases motor functions.", "Stacks up to 3")
+        add("${ALLItems.SPEED_COLA.descriptionId}.speedModifier", "+%s%% Speed (+%s%% per stack)")
+        add("${ALLItems.SPEED_COLA.descriptionId}.damageOverTime", "-%s health/%s seconds (-%s health, -%s second(s) per stack)")
 
         addSubtitle(ALLSounds.BLUEAXOLOTL_BW, "Blue axolotl twinkles")
         addSubtitle(ALLSounds.BLUEAXOLOTL_PLA, "Blue axolotl twinkles")
@@ -34,7 +37,8 @@ class PackLanguageProvider(pack: PackOutput, val lookupProvider: CompletableFutu
             )
 
         add(ALLStatusEffects.HYPERACTIVE, "Hyperactive")
-        addPotion(ALLPotions.POTION_HYPERACTIVE, "SCP-207")
+
+        addCreativeTab(ALLItems.ALLTab, "A Love Letter")
 
 
     }
@@ -105,9 +109,27 @@ class PackLanguageProvider(pack: PackOutput, val lookupProvider: CompletableFutu
 
     }
 
+    /** Adds an item with a varying amount of tooltip descriptions.
+     *
+     * For every tooltip string provided, the translation key for that tooltip is (itemkey).tooltip_N, with N being the tooltip number, index-1. */
+    fun addItem(key: Item, nameTranslation: String, vararg tooltips: String) {
+        add(key, nameTranslation)
+
+        var tooltipIndex = 1
+        for (tooltip in tooltips) {
+            add("${key.descriptionId}.tooltip_${tooltipIndex}", tooltip)
+            tooltipIndex++
+        }
+    }
+
     fun addPotion(potion: Potion, translation: String) {
         val prefix = Items.POTION.descriptionId + ".effect."
         add(potion.getName(prefix), translation)
+    }
+
+    fun addCreativeTab(tab: CreativeModeTab, translation: String) {
+        //add("itemGroup.${ALoveLetter.MODID}.$tabName", translation)
+        add(tab.displayName.string, translation)
     }
 
 }

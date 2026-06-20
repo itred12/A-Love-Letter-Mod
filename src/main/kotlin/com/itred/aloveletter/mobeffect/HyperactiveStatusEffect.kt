@@ -21,23 +21,24 @@ object HyperactiveStatusEffect : CustomMobEffect(
 
     // Jump boost is 0.1, this is half
     private const val JUMP_BONUS_PER_LEVEL = 0.05F
+    // For reference, every level of speed is +0.2
+    const val SPEED_BONUS_PER_LEVEL = 0.25
+    const val STARTING_SPEED_BONUS = 0.75F
 
     override val effectTickInterval: Int = 100
 
-    private const val INTERVAL_SHRINK_PER_LEVEL = 30
+    const val INTERVAL_SHRINK_PER_LEVEL = 10
     private const val LOWEST_EFFECT_TICK_INTERVAL = 40
-    private const val DAMAGE_PER_LEVEL = 1
+    const val DAMAGE_PER_LEVEL = 1
 
     override fun applyEffectTick(pLivingEntity: LivingEntity?, pAmplifier: Int) {
-
-        // TODO: Saturation not consumed except from healing
 
         // TODO: FIND SOME BETTER WAY TO MAKE A DAMAGE SOURCE PLEASE GOD
         val type = pLivingEntity?.level()?.registryAccess()?.lookupOrThrow<DamageType>(Registries.DAMAGE_TYPE)?.getOrThrow(
             DamageTypeRegistryProvider.SUCROSE_SICKNESS)
 
         pLivingEntity?.hurt(
-            DamageSource(type), (1 + DAMAGE_PER_LEVEL * (pAmplifier + 1.0F))
+            DamageSource(type), (DAMAGE_PER_LEVEL * (pAmplifier + 1.0F))
         )
 
     }
@@ -60,8 +61,8 @@ object HyperactiveStatusEffect : CustomMobEffect(
     }
 
     override fun getAttributeModifierValue(pAmplifier: Int, pModifier: AttributeModifier?): Double {
-        // Level of 0 is 0.5 (< speed 2) and every level above that adds 0.25 (< 1 level of speed)
-        return 0.25 * (pAmplifier + 2)
+        // Level of 0 is 0.75 (> speed 3) and every level above that adds 0.25 (> 1 level of speed)
+        return STARTING_SPEED_BONUS + (SPEED_BONUS_PER_LEVEL * pAmplifier)
     }
 
     fun getJumpBonus(amplifier: Int): Float {
