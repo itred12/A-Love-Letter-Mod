@@ -21,8 +21,12 @@ object ALLItems: AbstractRegistrar<Item>(ForgeRegistries.ITEMS) {
             .title(Component.translatable("itemGroup." + ALoveLetter.MODID + ".maintab"))
             .icon{ ItemStack(Items.GLASS_BOTTLE) }
             .displayItems { parameters, output ->
+
                 // Items go here
                 output.accept(SPEED_COLA)
+                output.accept(WAX_PAPER)
+                output.accept(ENCHANTED_PARCHMENT)
+
             }
             .build()
     }
@@ -46,7 +50,7 @@ object ALLItems: AbstractRegistrar<Item>(ForgeRegistries.ITEMS) {
         // Object keyword before this allows us to turn this into an anonymous class we can override
         object: Item(
             Item.Properties()
-                .rarity(Rarity.UNCOMMON)
+                .rarity(Rarity.RARE)
         ) {
             override fun canGrindstoneRepair(stack: ItemStack?): Boolean {
                 return true

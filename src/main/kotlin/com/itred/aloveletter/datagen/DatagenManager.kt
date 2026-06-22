@@ -6,6 +6,8 @@ import com.itred.aloveletter.datagen.assets.PackLanguageProvider
 import com.itred.aloveletter.datagen.assets.PackSoundProvider
 import com.itred.aloveletter.datagen.data.PackRecipesProvider
 import com.itred.aloveletter.datagen.data.PackRegistriesGenerator
+import com.itred.aloveletter.datagen.data.tag.PackBlockTagProvider
+import com.itred.aloveletter.datagen.data.tag.PackItemTagProvider
 import net.minecraft.data.PackOutput
 import net.minecraftforge.data.event.GatherDataEvent
 import net.minecraftforge.eventbus.api.EventPriority
@@ -26,12 +28,16 @@ object DatagenManager {
 
         lookupProvider = generator.addProvider(event.includeServer(), PackRegistriesGenerator(pack, lookupProvider)).registryProvider
 
+        val blockTagProvider = PackBlockTagProvider(pack, lookupProvider, existingFileHelper)
+        generator.addProvider(event.includeServer(), blockTagProvider)
+        generator.addProvider(event.includeServer(), PackItemTagProvider(pack, lookupProvider, blockTagProvider.contentsGetter(), existingFileHelper))
+
         generator.addProvider(event.includeServer(), PackRecipesProvider(pack))
 
         generator.addProvider(event.includeClient(), PackItemModelProvider(pack, existingFileHelper))
 
         generator.addProvider(event.includeClient(), PackSoundProvider(pack, existingFileHelper))
-        generator.addProvider(true, PackLanguageProvider(pack, lookupProvider))
+        generator.addProvider(event.includeClient(), PackLanguageProvider(pack, lookupProvider))
 
 
 

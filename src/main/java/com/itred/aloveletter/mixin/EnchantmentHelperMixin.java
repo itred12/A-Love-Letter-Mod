@@ -2,6 +2,7 @@ package com.itred.aloveletter.mixin;
 
 import com.itred.aloveletter.registrar.ALLItems;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -21,6 +22,17 @@ import java.util.List;
 @Mixin(EnchantmentHelper.class)
 public class EnchantmentHelperMixin {
 
+    // TODO: move these to in-kotlin handlers to make other mod's mixins easier
+
+    // Transmute wax paper into enchanted parchment on enchant
+    @WrapMethod(method = "enchantItem")
+    private static ItemStack aloveletter$waxPaperToParchmentOnEnchant(RandomSource pRandom, ItemStack pStack, int pLevel, boolean pAllowTreasure, Operation<ItemStack> original) {
+        if (pStack.is(ALLItems.INSTANCE.getWAX_PAPER())) {
+            return original.call(pRandom, new ItemStack(ALLItems.INSTANCE.getENCHANTED_PARCHMENT()), pLevel, pAllowTreasure);
+        }
+        return original.call(pRandom, pStack, pLevel, pAllowTreasure);
+    }
+
     // Return after the first enchantment is applied, before any further enchantments are applied, if the item is wax paper
     @Inject(method = "selectEnchantment", at = @At(value = "INVOKE", target = "Ljava/util/Optional;ifPresent(Ljava/util/function/Consumer;)V", shift = At.Shift.AFTER), cancellable = true)
     private static void aloveletter$waxPaperOnlyOneEnchantment(RandomSource pRandom, ItemStack pItemStack, int pLevel, boolean pAllowTreasure, CallbackInfoReturnable<List<EnchantmentInstance>> cir, @Local(name = "list") List<EnchantmentInstance> list) {
@@ -32,11 +44,9 @@ public class EnchantmentHelperMixin {
     // Ensure that wax paper uses the same StoredEnchantments component instead of the usual Enchantments component
     @WrapOperation(method = "getEnchantments", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getEnchantmentTags()Lnet/minecraft/nbt/ListTag;"))
     private static ListTag aloveletter$waxPaperStoreEnchantments(ItemStack instance, Operation<ListTag> original) {
-
         if (instance.is(ALLItems.INSTANCE.getENCHANTED_PARCHMENT())) {
             return EnchantedBookItem.getEnchantments(instance);
         }
-
         return original.call(instance);
     }
 

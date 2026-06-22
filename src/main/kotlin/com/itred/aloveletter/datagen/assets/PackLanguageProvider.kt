@@ -27,6 +27,9 @@ class PackLanguageProvider(pack: PackOutput, val lookupProvider: CompletableFutu
         add("${ALLItems.SPEED_COLA.descriptionId}.speedModifier", "+%s%% Speed (+%s%% per stack)")
         add("${ALLItems.SPEED_COLA.descriptionId}.damageOverTime", "-%s health/%s seconds (-%s health, -%s second(s) per stack)")
 
+        add(ALLItems.WAX_PAPER, "Wax Paper")
+        add(ALLItems.ENCHANTED_PARCHMENT, "Enchanted Parchment")
+
         addSubtitle(ALLSounds.BLUEAXOLOTL_BW, "Blue axolotl twinkles")
         addSubtitle(ALLSounds.BLUEAXOLOTL_PLA, "Blue axolotl twinkles")
 

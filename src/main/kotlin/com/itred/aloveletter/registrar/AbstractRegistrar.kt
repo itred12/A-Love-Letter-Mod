@@ -15,10 +15,15 @@ open class AbstractRegistrar<T>(targetRegistry: IForgeRegistry<T>)  {
 
     companion object {
 
+
+
         fun registerAll(modBus: IEventBus) {
             ALLItems.register(modBus)
             // Kiiiindof lazy for now but whatevah
             ALLItems.CREATIVE_TAB_REGISTER.register(modBus)
+
+            ALLRecipeUtils.register(modBus)
+
             ALLSounds.register(modBus)
             ALLStatusEffects.register(modBus)
             //ALLPotions.register(modBus)

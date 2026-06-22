@@ -10,6 +10,8 @@ class PackItemModelProvider(pack: PackOutput, existingFileHelper: ExistingFileHe
 
     override fun registerModels() {
         basicItem(ALLItems.SPEED_COLA)
+        basicItem(ALLItems.ENCHANTED_PARCHMENT)
+        basicItem(ALLItems.WAX_PAPER)
 
     }
 

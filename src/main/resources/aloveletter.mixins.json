@@ -5,6 +5,7 @@
   "refmap": "mixins.aloveletter.refmap.json",
   "mixins": [
     "EnchantmentHelperMixin",
+    "EnchantmentMenuMixin",
     "GrindstoneMenuMixin",
     "LivingEntityMixin",
     "PlayerMixin"
@@ -14,5 +15,6 @@
   },
   "overwrites": {
     "requireAnnotations": true
-  }
+  },
+  "mixinextras": {"minVersion": "0.5.4"}
 }
