@@ -1,13 +1,16 @@
 package com.itred.aloveletter.event.persistent.client
 
 import com.itred.aloveletter.ALoveLetter
+import com.itred.aloveletter.client.EntityRenderer.JusticeBulletEntityRenderer
 import com.itred.aloveletter.mobeffect.HyperactiveStatusEffect
+import com.itred.aloveletter.registrar.ALLEntities
 import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.alchemy.PotionUtils
 import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.client.event.EntityRenderersEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
@@ -33,6 +36,11 @@ object ClientSetupEvents {
             */
         }
 
+    }
+
+    @SubscribeEvent
+    fun onEntityRendererRegister(event: EntityRenderersEvent.RegisterRenderers) {
+        event.registerEntityRenderer(ALLEntities.JUSTICE_BULLET, ::JusticeBulletEntityRenderer)
     }
 
 
