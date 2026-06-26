@@ -1,6 +1,7 @@
 package com.itred.aloveletter.registrar
 
 import com.itred.aloveletter.ALoveLetter
+import com.itred.aloveletter.item.JusticeWeaponItem
 import com.itred.aloveletter.item.SpeedColaItem
 import com.itred.aloveletter.item.WaxPaperItem
 import net.minecraft.core.registries.Registries
@@ -66,6 +67,12 @@ object ALLItems: AbstractRegistrar<Item>(ForgeRegistries.ITEMS) {
 
     val WAX_PAPER by newComplexItem("wax_paper") {
         WaxPaperItem(Item.Properties())
+    }
+
+    val JUSTICE_GUN by newComplexItem("justice_weapon") {
+        JusticeWeaponItem(Item.Properties()
+            .rarity(Rarity.RARE)
+        )
     }
 
 
