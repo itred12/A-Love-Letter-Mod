@@ -1,6 +1,5 @@
 package com.itred.aloveletter.entity
 
-import com.itred.aloveletter.ALoveLetter
 import com.itred.aloveletter.item.JusticeWeaponItem
 import com.itred.aloveletter.registrar.ALLEntities
 import net.minecraft.network.syncher.EntityDataSerializers
@@ -20,7 +19,7 @@ class JusticeBulletEntity : Projectile, ItemSupplier {
     }
 
     constructor(entity: EntityType<out JusticeBulletEntity>, level: Level) : super(entity, level) {
-        ALoveLetter.LOGGER.info("aaaa")
+
     }
 
     constructor(entityType: EntityType<out JusticeBulletEntity>, level: Level, x: Double, y: Double, z: Double, ammoStack: ItemStack) : this(ALLEntities.JUSTICE_BULLET, level) {

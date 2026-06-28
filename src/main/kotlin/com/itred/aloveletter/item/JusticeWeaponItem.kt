@@ -1,17 +1,15 @@
 package com.itred.aloveletter.item
 
-import com.itred.aloveletter.ALoveLetter
 import com.itred.aloveletter.entity.JusticeBulletEntity
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
+import net.minecraft.sounds.SoundEvents
+import net.minecraft.sounds.SoundSource
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.item.ArrowItem
-import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.Items
-import net.minecraft.world.item.ProjectileWeaponItem
+import net.minecraft.world.item.*
 import net.minecraft.world.level.Level
 import org.joml.Quaternionf
 import java.util.function.Predicate
@@ -51,40 +49,36 @@ class JusticeWeaponItem(properties: Properties) : ProjectileWeaponItem(propertie
         pUsedHand: InteractionHand
     ): InteractionResultHolder<ItemStack> {
 
-
-
         val weaponStack = pPlayer.getItemInHand(pUsedHand)
 
 
 
         // If crouching, try to load ammo if possible
         if (pPlayer.isCrouching) {
+
             if (NBTHelpers.canLoadAmmo(weaponStack) && !pPlayer.getProjectile(weaponStack).isEmpty) {
                 pPlayer.startUsingItem(pUsedHand)
+                return InteractionResultHolder.consume(weaponStack)
+            } else {
+                return InteractionResultHolder.fail(weaponStack)
             }
-            return InteractionResultHolder.consume(weaponStack)
+
         } else {
 
             if (NBTHelpers.isLoaded(weaponStack)) {
 
                 val ammo = NBTHelpers.popAmmo(weaponStack)
 
-                val bullet = JusticeBulletEntity(pLevel, pPlayer, ammo)
+                spawnAndFireBullet(pPlayer, pLevel, weaponStack, ammo)
 
-                ALoveLetter.LOGGER.info(ammo)
-
-                val userUpVec = pPlayer.getUpVector(1.0F)
-                val aimQuaterion = (Quaternionf().setAngleAxis(0.0, userUpVec.x, userUpVec.y, userUpVec.z))
-                val userViewVec = pPlayer.getViewVector(1.0F)
-
-                val aimVec3 = userViewVec.toVector3f().rotate(aimQuaterion)
-                bullet.shoot(aimVec3.x.toDouble(), aimVec3.y.toDouble(), aimVec3.z.toDouble(), 1.0F, 0.0F)
+                if (pLevel.isClientSide) {
+                    pLevel.playSound(pPlayer, pPlayer.blockPosition(), SoundEvents.CROSSBOW_SHOOT, SoundSource.MASTER, 1.0f, 1.0f)
+                }
 
                 if (NBTHelpers.getNBTProjectileCount(weaponStack) == 0) {
                     NBTHelpers.setLoaded(weaponStack, false)
                 }
 
-                pLevel.addFreshEntity(bullet)
 
                 return InteractionResultHolder.consume(weaponStack)
             }
@@ -93,44 +87,28 @@ class JusticeWeaponItem(properties: Properties) : ProjectileWeaponItem(propertie
         }
 
 
-
-
-    }
-
-    override fun onUseTick(
-        pLevel: Level,
-        pLivingEntity: LivingEntity,
-        pStack: ItemStack,
-        pRemainingUseDuration: Int
-    ) {
-
-        if (pLevel.isClientSide) {
-            return
-        }
-
-        val currentUseDuration = pStack.useDuration - pRemainingUseDuration
-        if (currentUseDuration > TIME_TO_LOAD) {
-            // Resets the use timer and skips to releaseUsing in the itemstack, good for parity
-            pLivingEntity.releaseUsingItem()
-        }
-
-    }
-
-    override fun releaseUsing(pStack: ItemStack, pLevel: Level, pLivingEntity: LivingEntity, pTimeCharged: Int) {
-        val currentUseDuration = pStack.useDuration - pTimeCharged
-
-        if (currentUseDuration > TIME_TO_LOAD) {
-            loadAmmoFromInventory(pLivingEntity, pStack)
-        }
     }
 
 
-    fun loadAmmoFromInventory(user: LivingEntity, weaponStack: ItemStack) {
+    override fun finishUsingItem(pStack: ItemStack, pLevel: Level, pLivingEntity: LivingEntity): ItemStack {
+        if (loadAmmoFromInventory(pLivingEntity, pStack) && pLevel.isClientSide) {
+            pLevel.playSound(pLivingEntity, pLivingEntity.blockPosition(), SoundEvents.LEVER_CLICK, SoundSource.MASTER, 0.5f, 1.0f)
+        }
+        return pStack
+    }
+
+
+    override fun getUseDuration(pStack: ItemStack?): Int {
+        return TIME_TO_LOAD + 3
+    }
+
+
+    private fun  loadAmmoFromInventory(user: LivingEntity, weaponStack: ItemStack): Boolean {
 
         val isCreative = user is Player && user.abilities.instabuild
 
         if (!NBTHelpers.canLoadAmmo(weaponStack)) {
-            return
+            return false
         }
 
         var ammoStack = user.getProjectile(weaponStack)
@@ -138,11 +116,14 @@ class JusticeWeaponItem(properties: Properties) : ProjectileWeaponItem(propertie
             ammoStack = ItemStack(DEFAULT_PROJECTILE_ITEM)
         }
 
-        tryLoadAmmo(user, weaponStack, ammoStack, isCreative)
+        return tryLoadAmmo(user, weaponStack, ammoStack, isCreative)
 
     }
 
-    fun tryLoadAmmo(user: LivingEntity, weaponStack: ItemStack, ammoStack: ItemStack, isCreative: Boolean): Boolean {
+
+
+
+    private fun tryLoadAmmo(user: LivingEntity, weaponStack: ItemStack, ammoStack: ItemStack, isCreative: Boolean): Boolean {
 
         if (ammoStack.isEmpty) {
             return false
@@ -166,6 +147,7 @@ class JusticeWeaponItem(properties: Properties) : ProjectileWeaponItem(propertie
         }
 
         NBTHelpers.nbtLoadProjectile(weaponStack, pickedAmmo)
+
         if (!NBTHelpers.isLoaded(weaponStack)) {
             NBTHelpers.setLoaded(weaponStack, true)
         }
@@ -174,10 +156,24 @@ class JusticeWeaponItem(properties: Properties) : ProjectileWeaponItem(propertie
 
     }
 
+    private fun spawnAndFireBullet(user: LivingEntity, level: Level, weaponStack: ItemStack, bulletStack: ItemStack) {
+
+        val bullet = JusticeBulletEntity(level, user, bulletStack)
+
+        val userUpVec = user.getUpVector(1.0F)
+        val aimQuaterion = (Quaternionf().setAngleAxis(0.0, userUpVec.x, userUpVec.y, userUpVec.z))
+        val userViewVec = user.getViewVector(1.0F)
+
+        val aimVec3 = userViewVec.toVector3f().rotate(aimQuaterion)
+        bullet.shoot(aimVec3.x.toDouble(), aimVec3.y.toDouble(), aimVec3.z.toDouble(), 1.0F, 0.0F)
+
+        level.addFreshEntity(bullet)
+    }
 
 
-    override fun getUseDuration(pStack: ItemStack?): Int {
-        return TIME_TO_LOAD + 3
+
+    override fun getUseAnimation(pStack: ItemStack?): UseAnim? {
+        return UseAnim.CROSSBOW
     }
 
 

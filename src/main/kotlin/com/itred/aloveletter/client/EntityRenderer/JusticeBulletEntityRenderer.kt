@@ -17,7 +17,7 @@ import org.joml.Matrix4f
 
 class JusticeBulletEntityRenderer(context: EntityRendererProvider.Context) : EntityRenderer<Entity>(context) {
 
-    val TEXTURE_LOCATION = ALoveLetter.modLoc("textures/item/scp_207")
+    val TEXTURE_LOCATION = ALoveLetter.modLoc("textures/item/scp_207.png")
 
     override fun getTextureLocation(pEntity: Entity?): ResourceLocation? {
         return TEXTURE_LOCATION
