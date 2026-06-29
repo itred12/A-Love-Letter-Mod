@@ -12,9 +12,9 @@ object ALLEntities : AbstractRegistrar<EntityType<*>>(ForgeRegistries.ENTITY_TYP
 
     val JUSTICE_BULLET by registerEntityType<JusticeBulletEntity>("justice_bullet",
         EntityType.Builder.of(::JusticeBulletEntity, MobCategory.MISC)
-            .sized(0.25F, 0.25F)
+            .sized(0.5F, 0.5F)
             .clientTrackingRange(4)
-            .updateInterval(10)
+            .updateInterval(20)
     )
 
 

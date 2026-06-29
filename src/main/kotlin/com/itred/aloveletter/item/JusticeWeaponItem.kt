@@ -33,6 +33,7 @@ class JusticeWeaponItem(properties: Properties) : ProjectileWeaponItem(propertie
 
 
 
+
     override fun getAllSupportedProjectiles(): Predicate<ItemStack?> {
         return Predicate { itemStack ->
             itemStack?.item is ArrowItem
@@ -158,14 +159,14 @@ class JusticeWeaponItem(properties: Properties) : ProjectileWeaponItem(propertie
 
     private fun spawnAndFireBullet(user: LivingEntity, level: Level, weaponStack: ItemStack, bulletStack: ItemStack) {
 
-        val bullet = JusticeBulletEntity(level, user, bulletStack)
+        val bullet = JusticeBulletEntity(level, user, bulletStack, 5)
 
         val userUpVec = user.getUpVector(1.0F)
-        val aimQuaterion = (Quaternionf().setAngleAxis(0.0, userUpVec.x, userUpVec.y, userUpVec.z))
+        val aimQuaterion = (Quaternionf().setAngleAxis(1.0, userUpVec.x, userUpVec.y, userUpVec.z))
         val userViewVec = user.getViewVector(1.0F)
 
         val aimVec3 = userViewVec.toVector3f().rotate(aimQuaterion)
-        bullet.shoot(aimVec3.x.toDouble(), aimVec3.y.toDouble(), aimVec3.z.toDouble(), 1.0F, 0.0F)
+        bullet.shoot(userViewVec.x, userViewVec.y, userViewVec.z, 10.0F, 0.0F)
 
         level.addFreshEntity(bullet)
     }

@@ -52,7 +52,8 @@ class JusticeBulletEntityRenderer(context: EntityRendererProvider.Context) : Ent
         val f7 = 0.3125f
         val f8 = 0.05625f
 
-        val scale = 0.05625f
+        //0.05625f
+        val scale = 1f/32
         val offsetUp = 1.5f
 
         val tailfinX = -7
