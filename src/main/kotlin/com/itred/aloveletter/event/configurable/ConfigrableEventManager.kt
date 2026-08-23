@@ -3,6 +3,7 @@ package com.itred.aloveletter.event.configurable
 import com.itred.aloveletter.ALoveLetter
 import com.itred.aloveletter.event.configurable.serverloadedworldevents.BlueAxolotlPing
 import com.itred.aloveletter.event.configurable.serverloadedworldevents.BlueAxolotlTweaks
+import com.itred.aloveletter.event.configurable.serverloadedworldevents.CrossbowTweaks
 import com.itred.aloveletter.event.configurable.serverloadedworldevents.UnbreakableTiersItems
 import net.minecraftforge.event.server.ServerAboutToStartEvent
 import net.minecraftforge.event.server.ServerStoppingEvent
@@ -24,7 +25,8 @@ object ConfigrableEventManager {
     private val ServerLoadedWorldEvents: List<IConfigurableEventHandler> = listOf(
         UnbreakableTiersItems,
         BlueAxolotlPing,
-        BlueAxolotlTweaks
+        BlueAxolotlTweaks,
+        CrossbowTweaks
     )
 
 

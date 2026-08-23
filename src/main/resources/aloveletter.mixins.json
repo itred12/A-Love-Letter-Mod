@@ -5,7 +5,7 @@
   "refmap": "mixins.aloveletter.refmap.json",
   "mixins": [
     "AxolotlMixin",
-
+    "CrossbowItemMixin",
     "EnchantmentHelperMixin",
     "EnchantmentMenuMixin",
     "GrindstoneMenuMixin",
