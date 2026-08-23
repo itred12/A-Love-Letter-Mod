@@ -4,9 +4,12 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "mixins.aloveletter.refmap.json",
   "mixins": [
+    "AxolotlMixin",
+
     "EnchantmentHelperMixin",
     "EnchantmentMenuMixin",
     "GrindstoneMenuMixin",
+    "ItemMixin",
     "ItemStackMixin",
     "LivingEntityMixin",
     "PlayerMixin"
@@ -17,5 +20,6 @@
   "overwrites": {
     "requireAnnotations": true
   },
-  "mixinextras": {"minVersion": "0.5.4"}
+  "mixinextras": {
+    "minVersion": "0.5.4"}
 }

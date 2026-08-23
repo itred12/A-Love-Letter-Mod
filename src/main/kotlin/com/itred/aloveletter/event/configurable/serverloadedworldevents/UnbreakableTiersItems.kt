@@ -1,6 +1,5 @@
 package com.itred.aloveletter.event.configurable.serverloadedworldevents
 
-import com.itred.aloveletter.ALoveLetter
 import com.itred.aloveletter.config.ALLConfig
 import com.itred.aloveletter.event.configurable.IConfigurableEventHandler
 import net.minecraft.resources.ResourceLocation
@@ -17,12 +16,16 @@ object UnbreakableTiersItems: IConfigurableEventHandler {
     val unbreakableItems = mutableListOf<Item>()
 
     fun shouldDamage(itemStack: ItemStack): Boolean {
+        val item: Item = itemStack.item
+        return shouldDamage(item)
+    }
+
+    fun shouldDamage(item: Item): Boolean {
         // If this event is disabled, ignore all logic
         if (!this.isEnabled) {
             return true
         }
 
-        val item: Item = itemStack.item
 
         // If the item is a tiered item, and its tier is specified as unbreakable...
         if (item is TieredItem) {
@@ -45,6 +48,8 @@ object UnbreakableTiersItems: IConfigurableEventHandler {
     }
 
 
+
+
     // From the string ID lists of the config, turn them into usable items
     private fun getItemsFromIdList(list: List<String>, target: MutableList<Item>) {
 
@@ -62,6 +67,8 @@ object UnbreakableTiersItems: IConfigurableEventHandler {
 
     }
 
+
+
     override var isEnabled: Boolean = false
 
 
@@ -71,7 +78,6 @@ object UnbreakableTiersItems: IConfigurableEventHandler {
 
     override fun enable(modBus: IEventBus) {
         isEnabled = true
-        ALoveLetter.LOGGER.info("This should only print once!")
         unbreakableTiers.clear()
         getItemsFromIdList(ALLConfig.COMMON_CONFIG.durabilityUnbreakableTierList.get(), unbreakableTiers)
 

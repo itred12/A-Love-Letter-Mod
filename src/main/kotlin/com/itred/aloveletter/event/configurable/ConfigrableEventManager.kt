@@ -2,6 +2,7 @@ package com.itred.aloveletter.event.configurable
 
 import com.itred.aloveletter.ALoveLetter
 import com.itred.aloveletter.event.configurable.serverloadedworldevents.BlueAxolotlPing
+import com.itred.aloveletter.event.configurable.serverloadedworldevents.BlueAxolotlTweaks
 import com.itred.aloveletter.event.configurable.serverloadedworldevents.UnbreakableTiersItems
 import net.minecraftforge.event.server.ServerAboutToStartEvent
 import net.minecraftforge.event.server.ServerStoppingEvent
@@ -22,7 +23,8 @@ object ConfigrableEventManager {
      * Commonn config values present when enabling/disabling them are thus the values as present on the server/server-hoster's client. */
     private val ServerLoadedWorldEvents: List<IConfigurableEventHandler> = listOf(
         UnbreakableTiersItems,
-        BlueAxolotlPing
+        BlueAxolotlPing,
+        BlueAxolotlTweaks
     )
 
 
