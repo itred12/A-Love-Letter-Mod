@@ -8,6 +8,7 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
 import net.minecraft.world.food.FoodProperties
 import net.minecraft.world.item.*
+import net.minecraftforge.eventbus.api.IEventBus
 import net.minecraftforge.registries.DeferredRegister
 import net.minecraftforge.registries.ForgeRegistries
 import thedarkcolour.kotlinforforge.forge.ObjectHolderDelegate
@@ -76,6 +77,7 @@ object ALLItems: AbstractRegistrar<Item>(ForgeRegistries.ITEMS) {
     }
 
 
+
     private fun newSimpleItem(name: String): ObjectHolderDelegate<Item> {
         return this.registry.registerObject(name) { Item(Item.Properties()) }
     }
@@ -85,8 +87,10 @@ object ALLItems: AbstractRegistrar<Item>(ForgeRegistries.ITEMS) {
 
     }
 
-    fun registerToCreativeModeTab() {
 
+    public override fun register(modbus: IEventBus) {
+        super.register(modbus)
+        CREATIVE_TAB_REGISTER.register(modbus)
     }
 
 }

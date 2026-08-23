@@ -1,6 +1,8 @@
 package com.itred.aloveletter.datagen.assets
 
 import com.itred.aloveletter.ALoveLetter
+import com.itred.aloveletter.config.ALLConfigScreen
+import com.itred.aloveletter.config.impl.AbstractConfigSection
 import com.itred.aloveletter.datagen.data.registry.DamageTypeRegistryProvider
 import com.itred.aloveletter.registrar.ALLItems
 import com.itred.aloveletter.registrar.ALLSounds
@@ -43,6 +45,13 @@ class PackLanguageProvider(pack: PackOutput, val lookupProvider: CompletableFutu
 
         addCreativeTab(ALLItems.ALLTab, "A Love Letter")
 
+
+        addConfigCategory(ALLConfigScreen.ClientGeneral, "Client Config", "Client-sided things added by the mod")
+        addConfigCategory(ALLConfigScreen.CommonFunMisc, "Fun / Misc", "Fun or miscellaneous things added by the mod")
+        addConfigCategory(ALLConfigScreen.CommonBalance, "Balance Tweaks", "Balancing changes added by the mod")
+        addConfigCategory(ALLConfigScreen.CommonDurabilityTweaks, "Durability Tweaks", "Durability changes added by the mod")
+
+        addOptionGroup("blueaxolotltweaks", "Blue Axolotl Tweaks")
 
     }
 
@@ -134,5 +143,19 @@ class PackLanguageProvider(pack: PackOutput, val lookupProvider: CompletableFutu
         //add("itemGroup.${ALoveLetter.MODID}.$tabName", translation)
         add(tab.displayName.string, translation)
     }
+
+
+
+    fun addConfigCategory(section: AbstractConfigSection, nameTranslation: String, description: String) {
+        val fullKey = "${AbstractConfigSection.CATEGORY_PREFIX}.${section.side}.${section.screenTranslationKey}"
+        add(fullKey, nameTranslation)
+        add("$fullKey.tooltip", description)
+    }
+
+    fun addOptionGroup(key: String, translation: String) {
+        add("config.aloveletter.optiongroup.$key", translation)
+    }
+
+
 
 }

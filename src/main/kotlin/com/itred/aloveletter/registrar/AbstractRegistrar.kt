@@ -19,8 +19,6 @@ open class AbstractRegistrar<T>(targetRegistry: IForgeRegistry<T>)  {
 
         fun registerAll(modBus: IEventBus) {
             ALLItems.register(modBus)
-            // Kiiiindof lazy for now but whatevah
-            ALLItems.CREATIVE_TAB_REGISTER.register(modBus)
 
             ALLRecipeUtils.register(modBus)
 
@@ -33,7 +31,7 @@ open class AbstractRegistrar<T>(targetRegistry: IForgeRegistry<T>)  {
 
     }
 
-    protected fun register(modbus: IEventBus) {
+    protected open fun register(modbus: IEventBus) {
         ALoveLetter.LOGGER.info("Registering ${ALoveLetter.resourceLocationToHumanReadable(this.registry.registryName)}s!")
         registry.register(modbus)
     }

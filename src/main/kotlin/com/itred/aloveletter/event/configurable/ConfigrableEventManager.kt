@@ -2,6 +2,7 @@ package com.itred.aloveletter.event.configurable
 
 import com.itred.aloveletter.ALoveLetter
 import com.itred.aloveletter.event.configurable.server.BlueAxolotlPing
+import com.itred.aloveletter.event.configurable.server.rebalance.UnbreakableTiersItems
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod
@@ -21,7 +22,8 @@ object ConfigrableEventManager {
 
         )),
         Pair(ModConfig.Type.SERVER, listOf(
-            BlueAxolotlPing
+            BlueAxolotlPing,
+            UnbreakableTiersItems
         ))
     )
 

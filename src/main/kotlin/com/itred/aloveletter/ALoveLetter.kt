@@ -3,6 +3,7 @@ package com.itred.aloveletter
 
 import com.itred.aloveletter.block.ModBlocks
 import com.itred.aloveletter.config.ALLConfig
+import com.itred.aloveletter.config.ALLConfigScreen
 import com.itred.aloveletter.registrar.AbstractRegistrar
 import dev.isxander.yacl3.api.YetAnotherConfigLib
 import net.minecraft.client.Minecraft
@@ -34,12 +35,8 @@ object ALoveLetter {
     const val MODID = "aloveletter"
     val LOGGER = LogManager.getLogger(MODID)
 
-
-
     init {
         val modEventBus = MOD_CONTEXT.getKEventBus()
-
-
 
         // Allows NeoForge to create a config screen for this mod's configs.
         // The config screen is accessed by going to the Mods screen > clicking on your mod > clicking on config.
@@ -52,9 +49,6 @@ object ALoveLetter {
         registerConfig(ModConfig.Type.COMMON, ALLConfig.COMMON_CONFIG.configSpec)
         registerConfig(ModConfig.Type.CLIENT, ALLConfig.CLIENT_CONIFG.configSpec)
         registerConfig(ModConfig.Type.SERVER, ALLConfig.SERVER_CONFIG.configSpec)
-
-
-        LOGGER.log(Level.INFO, "Hello world!")
 
         // Register the KDeferredRegister to the mod-specific event bus
         ModBlocks.REGISTRY.register(modEventBus)
@@ -90,7 +84,7 @@ object ALoveLetter {
         ModLoadingContext.get().registerExtensionPoint<ConfigScreenHandler.ConfigScreenFactory>(ConfigScreenHandler.ConfigScreenFactory::class.java, {
             ConfigScreenHandler.ConfigScreenFactory{
                     client, parent ->
-                ALLConfig.constructConfigScreen(YetAnotherConfigLib.createBuilder()).build()
+                ALLConfigScreen.constructConfigScreen(YetAnotherConfigLib.createBuilder()).build()
                     .generateScreen(parent)
             }
         } )

@@ -1,33 +1,51 @@
-package com.itred.aloveletter.config
+package com.itred.aloveletter.config.impl
 
 import dev.isxander.yacl3.api.ConfigCategory
+import dev.isxander.yacl3.api.ListOption
 import dev.isxander.yacl3.api.Option
 import dev.isxander.yacl3.api.OptionDescription
 import net.minecraft.network.chat.Component
 import net.minecraftforge.common.ForgeConfigSpec
 
+abstract class AbstractConfigSection(val parentConfigSpec: ForgeConfigSpec) {
 
-abstract class AbstractConfigSection {
-    protected abstract val screenName: String
-    protected abstract val screenTooltip: String
+    companion object {
+        const val CATEGORY_PREFIX: String = "config.aloveletter.category"
+    }
 
-    lateinit var configSpec: ForgeConfigSpec
+    abstract val screenTranslationKey: String
+    abstract val side: ConfigSide
 
     // Must be constructed from scratch whenever called because of how YACL works.
     // 'Is there a better way to do this?'? Yeah. Probably.
     protected fun encompassingCategoryBuilder(): ConfigCategory.Builder {
         return ConfigCategory.createBuilder()
-            .name(Component.literal(screenName))
-            .tooltip(Component.literal(screenTooltip))
+            .name(Component.translatable("$CATEGORY_PREFIX.${side.name}.$screenTranslationKey"))
+            .tooltip(Component.translatable("$CATEGORY_PREFIX.${side.name}.$screenTranslationKey.tooltip"))
     }
 
 
     protected fun <T> simpleTemplateOption(configValue: ForgeConfigSpec.ConfigValue<T>): Option.Builder<T> {
 
         val name = pathToHumanReadable(configValue.path.last())
-        val tooltip = configSpec.get<ForgeConfigSpec.ValueSpec>(configValue.path).comment
+        val tooltip = parentConfigSpec.get<ForgeConfigSpec.ValueSpec>(configValue.path).comment
 
         return Option.createBuilder<T>()
+            .name(Component.literal(name))
+            .description(OptionDescription.of(Component.literal(tooltip)))
+            .binding(
+                configValue.default!!,
+                {configValue.get()!!},
+                {newValue -> configValue.set(newValue)}
+            )
+    }
+
+    protected fun <T> listTemplateOption(configValue: ForgeConfigSpec.ConfigValue<List<T>>): ListOption.Builder<T> {
+
+        val name = pathToHumanReadable(configValue.path.last())
+        val tooltip = parentConfigSpec.get<ForgeConfigSpec.ValueSpec>(configValue.path).comment
+
+        return ListOption.createBuilder<T>()
             .name(Component.literal(name))
             .description(OptionDescription.of(Component.literal(tooltip)))
             .binding(
@@ -57,10 +75,21 @@ abstract class AbstractConfigSection {
                 newName += character
             }
 
-
-
         }
 
         return newName
+    }
+
+    enum class ConfigSide {
+        SERVER("server"),
+        CLIENT("client"),
+        COMMON("common");
+
+        val prefix: String
+
+        constructor(prefix: String) {
+            this.prefix = prefix
+        }
+
     }
 }

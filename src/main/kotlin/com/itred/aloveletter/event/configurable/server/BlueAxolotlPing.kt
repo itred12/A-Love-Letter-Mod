@@ -93,7 +93,7 @@ object BlueAxolotlPing : IConfigurableEventHandler {
                     continue
                 }
 
-                val range = ALLConfig.SERVER_CONFIG.blueAxolotlPingRange.get()
+                val range = ALLConfig.COMMON_CONFIG.blueAxolotlPingRange.get()
 
                 if (axolotl.distanceTo(player) <= range) {
                     level.playSound(
@@ -120,7 +120,7 @@ object BlueAxolotlPing : IConfigurableEventHandler {
     override var isEnabled: Boolean = false
 
     override fun shouldEnable(): Boolean {
-        return ALLConfig.SERVER_CONFIG.blueAxolotPingMasterSwitch.get()
+        return ALLConfig.COMMON_CONFIG.blueAxolotPingMasterSwitch.get()
     }
 
     override fun enable(modBus: IEventBus) {

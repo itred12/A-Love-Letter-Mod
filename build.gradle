@@ -145,11 +145,12 @@ dependencies {
     // Use the latest version of Minecraft Forge
     minecraft "net.minecraftforge:forge:$minecraft_version-$forge_version"
 
+    // Kotlin
+    implementation "thedarkcolour:kotlinforforge:$kff_version"
 
     // Apply Mixin AP
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    // Kotlin
-    implementation "thedarkcolour:kotlinforforge:$kff_version"
+
 
 
     // Yet Another Config Lib
