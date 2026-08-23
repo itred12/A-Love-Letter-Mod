@@ -9,7 +9,6 @@ import dev.isxander.yacl3.api.YetAnotherConfigLib
 import net.minecraft.client.Minecraft
 import net.minecraft.resources.ResourceLocation
 import net.minecraftforge.client.ConfigScreenHandler
-import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.ModLoadingContext
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.config.ModConfig
@@ -43,7 +42,9 @@ object ALoveLetter {
         // Do not forget to add translations for your config options to the en_us.json file.
 
         // Register this in the event bus for @RegisterEvent-annotated stuff to run
-        MinecraftForge.EVENT_BUS.register(this)
+        //MinecraftForge.EVENT_BUS.register(this)
+
+
 
         // Config
         registerConfig(ModConfig.Type.COMMON, ALLConfig.COMMON_CONFIG.configSpec)

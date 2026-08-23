@@ -4,9 +4,8 @@ import com.itred.aloveletter.config.ALLConfig.CLIENT_CONIFG
 import com.itred.aloveletter.config.ALLConfig.COMMON_CONFIG
 import com.itred.aloveletter.config.ALLConfig.SCREEN_NAME
 import com.itred.aloveletter.config.impl.AbstractConfigSection
-import com.itred.aloveletter.event.configurable.server.BlueAxolotlPing
+import com.itred.aloveletter.event.configurable.serverloadedworldevents.BlueAxolotlPing
 import dev.isxander.yacl3.api.ConfigCategory
-import dev.isxander.yacl3.api.OptionFlag
 import dev.isxander.yacl3.api.OptionGroup
 import dev.isxander.yacl3.api.YetAnotherConfigLib
 import dev.isxander.yacl3.api.controller.EnumControllerBuilder
@@ -161,7 +160,6 @@ object ALLConfigScreen {
                     .controller(StringControllerBuilder::create)
                     .initial("namespace:id")
                     .collapsed(true)
-                    .flag(OptionFlag.GAME_RESTART)
                     .build(),
 
                     // Unbreakable tiers list
@@ -169,7 +167,6 @@ object ALLConfigScreen {
                         .controller(StringControllerBuilder::create)
                         .initial("namespace:id")
                         .collapsed(true)
-                        .flag(OptionFlag.GAME_RESTART)
                         .build(),
                     ))
                 .build()

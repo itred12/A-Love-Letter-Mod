@@ -1,9 +1,10 @@
-package com.itred.aloveletter.event.configurable.server
+package com.itred.aloveletter.event.configurable.serverloadedworldevents
 
 import com.itred.aloveletter.ALoveLetter
 import com.itred.aloveletter.config.ALLConfig
 import com.itred.aloveletter.event.configurable.IConfigurableEventHandler
 import com.itred.aloveletter.registrar.ALLSounds
+import net.minecraft.client.Minecraft
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundSource
 import net.minecraft.util.ByIdMap
@@ -13,7 +14,6 @@ import net.minecraftforge.event.entity.EntityJoinLevelEvent
 import net.minecraftforge.event.entity.EntityLeaveLevelEvent
 import net.minecraftforge.eventbus.api.IEventBus
 import net.minecraftforge.eventbus.api.SubscribeEvent
-import net.minecraftforge.fml.LogicalSide
 import thedarkcolour.kotlinforforge.forge.FORGE_BUS
 import java.util.*
 import java.util.function.IntFunction
@@ -25,14 +25,15 @@ object BlueAxolotlPing : IConfigurableEventHandler {
     private var storedAxolotls: MutableList<Axolotl> = mutableListOf()
     private var COUNTER: Int = 0
 
-    // We only want to play the sound effect once the player gets close to a blue Axolotl– onEntityTracked allows us to do this purely from the client's side.
-    // Buuuuut, when we first start tracking an entity, there's a real chance we do so *as* is spawns in, like if it spawns in range of the player.
+    // We only want to play the sound effect once the localPlayer gets close to a blue Axolotl– onEntityTracked allows us to do this purely from the client's side.
+    // Buuuuut, when we first start tracking an entity, there's a real chance we do so *as* is spawns in, like if it spawns in range of the localPlayer.
     // If this happens, its variant wont be initalized yet, so we want to store every axolotl that spawns on the client's side,
-        // and only when we go to check the player's distance can we verify their variant and toss out any non-blue ones
+        // and only when we go to check the localPlayer's distance can we verify their variant and toss out any non-blue ones
 
     @SubscribeEvent
     fun onEntityLoad(event: EntityJoinLevelEvent) {
         val entity = event.entity
+
 
         // On the client side, EntityJoinLevelEvent and its sibling are both fired when the entity starts and stops being tracked on the client
         if (event.level.isClientSide() && entity is Axolotl) {
@@ -52,15 +53,16 @@ object BlueAxolotlPing : IConfigurableEventHandler {
     }
 
     @SubscribeEvent
-    fun onPlayerTick(event: TickEvent.PlayerTickEvent) {
+    fun onlocalPlayerTick(event: TickEvent.ClientTickEvent) {
 
-
-        // Honestly I'd rather not hook up this event at all sever-side, buuut I'm not sure if that's how it works.
-        if (event.phase != TickEvent.Phase.START || event.side != LogicalSide.CLIENT) {
+        // We're only on the client logical side here, so we can safely obtain client data via the Minecraft instance
+        val minecraft = Minecraft.getInstance()
+        val localPlayer = minecraft.player
+        val localWorld = minecraft.level 
+        
+        if (localPlayer == null || localWorld == null) {
             return
         }
-
-        val player = event.player
 
         COUNTER++
 
@@ -72,12 +74,7 @@ object BlueAxolotlPing : IConfigurableEventHandler {
                 return
             }
 
-
-
             COUNTER = 0
-
-            val level = player.level()
-
 
             // Perform operations on a copy of the table, since using an iterator could cause a one-in-a-million Access Violation exception
             // when de-loading an axolotl the instant we start looping through the list.
@@ -87,7 +84,6 @@ object BlueAxolotlPing : IConfigurableEventHandler {
 
             for (axolotl: Axolotl in clonedStoredAxolotls) {
 
-
                 if (axolotl.isAlive && (axolotl.variant != Axolotl.Variant.BLUE)) {
                     storedAxolotls.remove(axolotl)
                     continue
@@ -95,17 +91,17 @@ object BlueAxolotlPing : IConfigurableEventHandler {
 
                 val range = ALLConfig.COMMON_CONFIG.blueAxolotlPingRange.get()
 
-                if (axolotl.distanceTo(player) <= range) {
-                    level.playSound(
-                        player,
+                if (axolotl.distanceTo(localPlayer) <= range) {
+                    localWorld.playSound(
+                        localPlayer,
                         axolotl.blockPosition(),
                         blueAxolotlPing.getSoundEffect().get().get(),
                         SoundSource.MASTER,
                         (max(16, range) / 16).toFloat() + 0.8f,
-                        player.random.nextInt(90, 110).toFloat() / 100
+                        localPlayer.random.nextInt(90, 110).toFloat() / 100
 
                     )
-                    ALoveLetter.LOGGER.info("Blue axolotl spawned {} blocks away!", player.distanceTo(axolotl))
+                    ALoveLetter.LOGGER.info("Blue axolotl spawned {} blocks away!", localPlayer.distanceTo(axolotl))
                     storedAxolotls.remove(axolotl)
                 }
 

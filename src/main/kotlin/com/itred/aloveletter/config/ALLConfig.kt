@@ -3,7 +3,7 @@ package com.itred.aloveletter.config
 import com.electronwill.nightconfig.core.EnumGetMethod
 import com.itred.aloveletter.ALoveLetter
 import com.itred.aloveletter.config.impl.AbstractEncompassingConfigHolder
-import com.itred.aloveletter.event.configurable.server.BlueAxolotlPing
+import com.itred.aloveletter.event.configurable.serverloadedworldevents.BlueAxolotlPing
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.AirItem
 import net.minecraft.world.item.BowItem
@@ -106,7 +106,7 @@ object ALLConfig {
                         "The damage of each subsequent arrow will be lowered quite a bit, however."
                     )
                     .worldRestart()
-                    .define("enableMultishotNotInvulnerability", true)
+                    .define("enableMultishotInvulnerabilitySkip", true)
 
                 rebalanceEnableBowDrawResetOnHit = commonBuilder
                     .comment(
@@ -158,7 +158,7 @@ object ALLConfig {
 
                 durabilityUnbreakableItemList = commonBuilder
                     .comment("Similar to the list above, but allows you to define it by-item. Any items in this list will be made unbreakable.", "",
-                            "Only takes effect if durabilityEnableUnbreakableItemTweaks is enabled.")
+                            "Only takes effect if the above option is enabled.")
                     .worldRestart()
                     .defineListAllowEmpty<String>(
                         "unbreakableItemList",

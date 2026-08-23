@@ -1,5 +1,6 @@
-package com.itred.aloveletter.event.configurable.server.rebalance
+package com.itred.aloveletter.event.configurable.serverloadedworldevents
 
+import com.itred.aloveletter.ALoveLetter
 import com.itred.aloveletter.config.ALLConfig
 import com.itred.aloveletter.event.configurable.IConfigurableEventHandler
 import net.minecraft.resources.ResourceLocation
@@ -15,7 +16,7 @@ object UnbreakableTiersItems: IConfigurableEventHandler {
 
     val unbreakableItems = mutableListOf<Item>()
 
-    public fun shouldDamage(itemStack: ItemStack): Boolean {
+    fun shouldDamage(itemStack: ItemStack): Boolean {
         // If this event is disabled, ignore all logic
         if (!this.isEnabled) {
             return true
@@ -70,7 +71,7 @@ object UnbreakableTiersItems: IConfigurableEventHandler {
 
     override fun enable(modBus: IEventBus) {
         isEnabled = true
-
+        ALoveLetter.LOGGER.info("This should only print once!")
         unbreakableTiers.clear()
         getItemsFromIdList(ALLConfig.COMMON_CONFIG.durabilityUnbreakableTierList.get(), unbreakableTiers)
 

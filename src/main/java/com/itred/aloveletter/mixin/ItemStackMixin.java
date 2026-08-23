@@ -1,6 +1,6 @@
 package com.itred.aloveletter.mixin;
 
-import com.itred.aloveletter.event.configurable.server.rebalance.UnbreakableTiersItems;
+import com.itred.aloveletter.event.configurable.serverloadedworldevents.UnbreakableTiersItems;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
