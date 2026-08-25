@@ -59,7 +59,7 @@ class PackLanguageProvider(pack: PackOutput, val lookupProvider: CompletableFutu
         addSubtitle(ALLSounds.FLOWERY_VOICECLIP_WHATAPREDICTABLECREATURE, "What a predictable creature.")
         addSubtitle(ALLSounds.FLOWERY_VOICECLIP_LENDMEYOURPOWER, "LEND ME YOUR POWER!!")
         addSubtitle(ALLSounds.FLOWERY_VOICECLIP_HEREICOMESANFRANDISC, "Here I come San-Frandisc-")
-        addSubtitle(ALLSounds.FLOWERY_VOICECLIP_ONEMOREFORTHEFANS, "One more for the fans!")
+        addSubtitle(ALLSounds.FLOWERY_VOICECLIP_ONEMOREFORTHEFANS, "And one more for the fans!")
         addSubtitle(ALLSounds.FLOWERY_VOICECLIP_MYKING, "My king!")
         addSubtitle(ALLSounds.FLOWERY_VOICECLIP_SORRYTOKEEPALADYINWAITING, "Sorry to keep a lady in waiting.")
 
