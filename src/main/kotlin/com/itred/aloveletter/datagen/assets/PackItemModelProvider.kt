@@ -13,6 +13,8 @@ class PackItemModelProvider(pack: PackOutput, existingFileHelper: ExistingFileHe
         basicItem(ALLItems.ENCHANTED_PARCHMENT)
         basicItem(ALLItems.WAX_PAPER)
 
+        basicItem(ALLItems.DISCERY)
+
     }
 
 

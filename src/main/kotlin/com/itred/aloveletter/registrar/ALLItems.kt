@@ -1,6 +1,7 @@
 package com.itred.aloveletter.registrar
 
 import com.itred.aloveletter.ALoveLetter
+import com.itred.aloveletter.item.DisceryItem
 import com.itred.aloveletter.item.JusticeWeaponItem
 import com.itred.aloveletter.item.SpeedColaItem
 import com.itred.aloveletter.item.WaxPaperItem
@@ -76,16 +77,26 @@ object ALLItems: AbstractRegistrar<Item>(ForgeRegistries.ITEMS) {
         )
     }
 
+    val DISCERY by newComplexItem<RecordItem>("discery") {
+        DisceryItem(
+            5,
+            ALLSounds.DISC_FLOWERMAN,
+            Item.Properties().rarity(Rarity.EPIC),
+            3840 // 192 seconds
+            )
+    }
+
 
 
     private fun newSimpleItem(name: String): ObjectHolderDelegate<Item> {
         return this.registry.registerObject(name) { Item(Item.Properties()) }
     }
 
-    private fun newComplexItem(name: String, preConfiguredItem: () -> Item): ObjectHolderDelegate<Item> {
+    private fun <T : Item> newComplexItem(name: String, preConfiguredItem: () -> T): ObjectHolderDelegate<out T> {
         return this.registry.registerObject(name, preConfiguredItem)
 
     }
+
 
 
     public override fun register(modbus: IEventBus) {

@@ -1,10 +1,12 @@
 package com.itred.aloveletter.datagen.data.tag
 
 import com.itred.aloveletter.ALoveLetter
+import com.itred.aloveletter.registrar.ALLItems
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.registries.Registries
 import net.minecraft.data.PackOutput
 import net.minecraft.data.tags.ItemTagsProvider
+import net.minecraft.tags.ItemTags
 import net.minecraft.tags.TagKey
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.Items
@@ -28,6 +30,11 @@ class PackItemTagProvider(pack: PackOutput, lookupProvider: CompletableFuture<Ho
     override fun addTags(pProvider: HolderLookup.Provider?) {
         tag(BOOK_BINDING_SINGLE_ITEMS)
             .add(Items.LEATHER)
+
+        tag(ItemTags.MUSIC_DISCS).add(
+            ALLItems.DISCERY
+        )
+
     }
 
 

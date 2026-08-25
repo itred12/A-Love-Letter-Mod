@@ -16,6 +16,7 @@ import net.minecraft.world.damagesource.DamageType
 import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.Items
+import net.minecraft.world.item.RecordItem
 import net.minecraft.world.item.alchemy.Potion
 import net.minecraftforge.common.data.LanguageProvider
 import java.util.concurrent.CompletableFuture
@@ -32,8 +33,38 @@ class PackLanguageProvider(pack: PackOutput, val lookupProvider: CompletableFutu
         add(ALLItems.WAX_PAPER, "Wax Paper")
         add(ALLItems.ENCHANTED_PARCHMENT, "Enchanted Parchment")
 
+        addMusicDiscItem(ALLItems.DISCERY, "Discery", "Toby Fox and Camellia", "Flower Man")
+
+
         addSubtitle(ALLSounds.BLUEAXOLOTL_BW, "Blue axolotl twinkles")
         addSubtitle(ALLSounds.BLUEAXOLOTL_PLA, "Blue axolotl twinkles")
+
+        addSubtitle(ALLSounds.FLOWERY_VOICECLIP_HA, "Ha!")
+        addSubtitle(ALLSounds.FLOWERY_VOICECLIP_HOO, "Hoo!")
+        addSubtitle(ALLSounds.FLOWERY_VOICECLIP_IMFALLING, "I'm falling!")
+        addSubtitle(ALLSounds.FLOWERY_VOICECLIP_GOODBYE, "Goodbye...")
+        addSubtitle(ALLSounds.FLOWERY_VOICECLIP_ITSMEFLOWERY, "It's me, Flowery!")
+        addSubtitle(ALLSounds.FLOWERY_VOICECLIP_HEYGUYS, "Hey guys!")
+        addSubtitle(ALLSounds.FLOWERY_VOICECLIP_FLOWERY, "Flowery.")
+        addSubtitle(ALLSounds.FLOWERY_VOICECLIP_SORRYTOKEEPYOUWAITING, "Sorry to keep you waiting!")
+        addSubtitle(ALLSounds.FLOWERY_VOICECLIP_LEAFITTOME, "Leaf it to me!")
+        addSubtitle(ALLSounds.FLOWERY_VOICECLIP_YES, "Yes!")
+        addSubtitle(ALLSounds.FLOWERY_VOICECLIP_SUSTINGUS, "Sustingus!!")
+        addSubtitle(ALLSounds.FLOWERY_VOICECLIP_JARONA, "Jarona!")
+        addSubtitle(ALLSounds.FLOWERY_VOICECLIP_ALLACCORDINGTOPLANT, "All according t- all according to plant.")
+        addSubtitle(ALLSounds.FLOWERY_VOICECLIP_GETACHANCE, "Get a chance.")
+        addSubtitle(ALLSounds.FLOWERY_VOICECLIP_HEHITSMYJARONA, "Heh, it's my Jarona!")
+        addSubtitle(ALLSounds.FLOWERY_VOICECLIP_SORRYABOUTTHATGUYS, "Sorry about that, guys.")
+        addSubtitle(ALLSounds.FLOWERY_VOICECLIP_TAKETHAT, "Take that!")
+        addSubtitle(ALLSounds.FLOWERY_VOICECLIP_WHATAPREDICTABLECREATURE, "What a predictable creature.")
+        addSubtitle(ALLSounds.FLOWERY_VOICECLIP_LENDMEYOURPOWER, "LEND ME YOUR POWER!!")
+        addSubtitle(ALLSounds.FLOWERY_VOICECLIP_HEREICOMESANFRANDISC, "Here I come San-Frandisc-")
+        addSubtitle(ALLSounds.FLOWERY_VOICECLIP_ONEMOREFORTHEFANS, "One more for the fans!")
+        addSubtitle(ALLSounds.FLOWERY_VOICECLIP_MYKING, "My king!")
+        addSubtitle(ALLSounds.FLOWERY_VOICECLIP_SORRYTOKEEPALADYINWAITING, "Sorry to keep a lady in waiting.")
+
+
+        addSubtitle(ALLSounds.DISC_FLOWERMAN, "Flower Man by Toby Fox and Camellia plays")
 
         addDamageType(
             DamageTypeRegistryProvider.SUCROSE_SICKNESS,
@@ -157,5 +188,9 @@ class PackLanguageProvider(pack: PackOutput, val lookupProvider: CompletableFutu
     }
 
 
+    fun addMusicDiscItem(item: RecordItem, nameTranslation: String, authors: String, songTitle: String ) {
+        add(item.descriptionId, nameTranslation)
+        add(item.descriptionId + ".desc", "$authors - $songTitle")
+    }
 
 }
