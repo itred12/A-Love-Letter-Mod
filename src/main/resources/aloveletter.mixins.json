@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "mixins.aloveletter.refmap.json",
   "mixins": [
+    "AbstractArrowMixin",
     "AxolotlMixin",
     "CrossbowItemMixin",
     "EnchantmentHelperMixin",
@@ -13,7 +14,8 @@
     "ItemStackMixin",
     "JukeboxBlockEntityMixin",
     "LivingEntityMixin",
-    "PlayerMixin"
+    "PlayerMixin",
+    "ThrownTridentMixin"
   ],
   "injectors": {
     "defaultRequire": 1

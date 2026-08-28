@@ -27,6 +27,8 @@ open class AbstractRegistrar<T>(targetRegistry: IForgeRegistry<T>)  {
 
             ALLEntities.register(modBus)
             //ALLPotions.register(modBus)
+
+            ALLEnchantments.register(modBus)
         }
 
     }

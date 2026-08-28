@@ -2,6 +2,7 @@ package com.itred.aloveletter.event.persistent.client
 
 import com.itred.aloveletter.ALoveLetter
 import com.itred.aloveletter.client.EntityRenderer.JusticeBulletEntityRenderer
+import com.itred.aloveletter.client.EntityRenderer.WhirlpoolEnchantmentAnchorEntityRenderer
 import com.itred.aloveletter.mobeffect.HyperactiveStatusEffect
 import com.itred.aloveletter.registrar.ALLEntities
 import net.minecraft.client.multiplayer.ClientLevel
@@ -41,6 +42,7 @@ object ClientSetupEvents {
     @SubscribeEvent
     fun onEntityRendererRegister(event: EntityRenderersEvent.RegisterRenderers) {
         event.registerEntityRenderer(ALLEntities.JUSTICE_BULLET, ::JusticeBulletEntityRenderer)
+        event.registerEntityRenderer(ALLEntities.WHIRPLPOOL_ENCHANTMENT_ANCHOR, ::WhirlpoolEnchantmentAnchorEntityRenderer)
     }
 
 

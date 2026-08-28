@@ -4,6 +4,7 @@ import com.itred.aloveletter.ALoveLetter
 import com.itred.aloveletter.config.ALLConfigScreen
 import com.itred.aloveletter.config.impl.AbstractConfigSection
 import com.itred.aloveletter.datagen.data.registry.DamageTypeRegistryProvider
+import com.itred.aloveletter.registrar.ALLEnchantments
 import com.itred.aloveletter.registrar.ALLItems
 import com.itred.aloveletter.registrar.ALLSounds
 import com.itred.aloveletter.registrar.ALLStatusEffects
@@ -83,6 +84,8 @@ class PackLanguageProvider(pack: PackOutput, val lookupProvider: CompletableFutu
         addConfigCategory(ALLConfigScreen.CommonDurabilityTweaks, "Durability Tweaks", "Durability changes added by the mod")
 
         addOptionGroup("blueaxolotltweaks", "Blue Axolotl Tweaks")
+
+        addEnchantment(ALLEnchantments.WHIRLPOOL, "Whirlpool")
 
     }
 
